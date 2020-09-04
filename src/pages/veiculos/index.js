@@ -5,17 +5,20 @@ import {View, FlatList, Image, Text, TouchableOpacity} from 'react-native';
 import logoImg from '../../assets/logo.png';
 import styles from './styles';
 
+import { Searchbar } from 'react-native-paper';
+
 export default function Home(){
     return(
         <View style={styles.container}>
             <View style={styles.header}>
                 <Image source={logoImg} />
                 <Text style={styles.headerText}>
-                    Total de <Text style={styles.headerTextBold}> 12 veiculos</Text>
+                    {'\n\n\n\n\nTotal de'}<Text style={styles.headerTextBold}> 12 veículos</Text>
                 </Text>
             </View>
             <Text style={styles.description}>Procure um veículo</Text>
-
+            <Searchbar></Searchbar>
+            
             <FlatList
                 style={styles.vehicleList}
                 data={[1,2,3]}
