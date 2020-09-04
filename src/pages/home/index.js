@@ -13,6 +13,18 @@ export default function Home(){
         navigation.navigate('Veiculos');
     }
 
+    function navigateToMotorista(){
+        navigation.navigate('Motoristas');
+    }
+
+    function navigateToComprovantes(){
+        navigation.navigate('Comprovantes');
+    }
+
+    function navigateToPecas(){
+        navigation.navigate('Pecas');
+    }
+
     return(
         <View style={styles.container}>
             <View style={styles.imagem}>
@@ -22,6 +34,7 @@ export default function Home(){
             <Text style={styles.title}>Bem vindo!</Text>
 
             <View style={styles.homeList}>
+                    
                     <TouchableRipple 
                         rippleColor="#E9EEF3"
                         style={styles.home} 
@@ -36,13 +49,36 @@ export default function Home(){
                     <TouchableRipple 
                         rippleColor="#E9EEF3"
                         style={styles.home} 
-                        onPress={navigateToVehicule}
+                        onPress={navigateToMotorista}
                     >
                         <View>
                             <Fontisto style={styles.iconCenter} name="person" size={120} color="black" />
                             <Text style={styles.detailsButtonText}>Motoristas</Text>
                         </View>
                     </TouchableRipple>
+                    
+                    <TouchableRipple 
+                        rippleColor="#E9EEF3"
+                        style={styles.home} 
+                        onPress={navigateToComprovantes}
+                    >
+                        <View>
+                            <Fontisto style={styles.iconCenter} name="person" size={120} color="black" />
+                            <Text style={styles.detailsButtonText}>Comprovantes</Text>
+                        </View>
+                    </TouchableRipple>
+
+                    <TouchableRipple 
+                        rippleColor="#E9EEF3"
+                        style={styles.home} 
+                        onPress={navigateToPecas}
+                    >
+                        <View>
+                            <Fontisto style={styles.iconCenter} name="person" size={120} color="black" />
+                            <Text style={styles.detailsButtonText}>Peças</Text>
+                        </View>
+                    </TouchableRipple>
+
 
             </View>
         </View>
