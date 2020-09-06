@@ -1,34 +1,44 @@
-import React from 'react';
-import { MaterialCommunityIcons, Fontisto } from '@expo/vector-icons'; 
+import React, {Component} from 'react';
+import { MaterialCommunityIcons, Fontisto, FontAwesome5 } from '@expo/vector-icons'; 
 import {View, Image, Text} from 'react-native';
 import {TouchableRipple} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
-import logoImg from '../../assets/logo.png';
+import logoImg from '../../assets/logoFundoColorido.png';
 import styles from './styles';
+import {FontAwesome} from '@expo/vector-icons';
+import firebase from 'firebase';
 
-export default function Home(){
-    const navigation = useNavigation();
+export default class Home extends Component{
 
-    function navigateToVehicule(){
-        navigation.navigate('Veiculos');
+    singOutAccount = () =>{
+        firebase.auth().signOut().then(() =>
+            this.props.navigation.navigate('Login')
+        )};
+
+    navigateToVehicule = () => {
+        this.props.navigation.navigate('Veiculos');
+    }
+    
+    navigateToMotorista = () => {
+        this.props.navigation.navigate('Motoristas');
     }
 
-    function navigateToMotorista(){
-        navigation.navigate('Motoristas');
+    navigateToComprovantes = () => {
+        this.props.navigation.navigate('Comprovantes');
     }
 
-    function navigateToComprovantes(){
-        navigation.navigate('Comprovantes');
+    navigateToPecas = () => {
+        this.props.navigation.navigate('Pecas');
     }
 
-    function navigateToPecas(){
-        navigation.navigate('Pecas');
-    }
 
+
+    render(){
     return(
         <View style={styles.container}>
-            <View style={styles.imagem}>
+            <View style={styles.header}>
                 <Image source={logoImg}/>
+
+                <FontAwesome name="power-off" onPress={this.singOutAccount} size={24} color="red" />
             </View>
 
             <Text style={styles.title}>Bem vindo!</Text>
@@ -38,10 +48,10 @@ export default function Home(){
                     <TouchableRipple 
                         rippleColor="#E9EEF3"
                         style={styles.home} 
-                        onPress={navigateToVehicule}
+                        onPress={this.navigateToVehicule}
                     >
                         <View>
-                            <MaterialCommunityIcons style={styles.iconCenter} name="car-multiple" size={120} color="black" />
+                            <MaterialCommunityIcons style={styles.icon} name="car-multiple" size={120}/>
                             <Text style={styles.detailsButtonText}>Veículos</Text>
                         </View>
                     </TouchableRipple>
@@ -49,21 +59,22 @@ export default function Home(){
                     <TouchableRipple 
                         rippleColor="#E9EEF3"
                         style={styles.home} 
-                        onPress={navigateToMotorista}
+                        onPress={this.navigateToMotorista}
                     >
                         <View>
-                            <Fontisto style={styles.iconCenter} name="person" size={120} color="black" />
+                            <Fontisto style={styles.icon} name="person" size={120}/>
                             <Text style={styles.detailsButtonText}>Motoristas</Text>
                         </View>
                     </TouchableRipple>
-                    
+            </View>
+            <View style={styles.homeListrow}>
                     <TouchableRipple 
                         rippleColor="#E9EEF3"
                         style={styles.home} 
-                        onPress={navigateToComprovantes}
+                        onPress={this.navigateToComprovantes}
                     >
                         <View>
-                            <Fontisto style={styles.iconCenter} name="person" size={120} color="black" />
+                            <FontAwesome5 style={styles.icon} name="file-invoice-dollar" size={120}/>
                             <Text style={styles.detailsButtonText}>Comprovantes</Text>
                         </View>
                     </TouchableRipple>
@@ -71,10 +82,10 @@ export default function Home(){
                     <TouchableRipple 
                         rippleColor="#E9EEF3"
                         style={styles.home} 
-                        onPress={navigateToPecas}
+                        onPress={this.navigateToPecas}
                     >
                         <View>
-                            <Fontisto style={styles.iconCenter} name="person" size={120} color="black" />
+                            <MaterialCommunityIcons style={styles.icon} name="car-battery" size={120} />
                             <Text style={styles.detailsButtonText}>Peças</Text>
                         </View>
                     </TouchableRipple>
@@ -83,4 +94,5 @@ export default function Home(){
             </View>
         </View>
     )
+    };
 }

@@ -13,7 +13,7 @@ export default function Home(){
             <View style={styles.header}>
                 <Image source={logoImg} />
                 <Text style={styles.headerText}>
-                    {'\n\n\n\n\nTotal de'}<Text style={styles.headerTextBold}> 12 veículos</Text>
+                    Total de<Text style={styles.headerTextBold}> 12 veículos</Text>
                 </Text>
             </View>
             <Text style={styles.description}>Procure um veículo</Text>

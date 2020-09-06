@@ -6,20 +6,20 @@ export default StyleSheet.create({
         flex: 1,
         paddingHorizontal: 24,
         paddingTop: Constants.statusBarHeight + 24,
-        backgroundColor: '#EBF6FF',
+        backgroundColor: '#4f8cff',
     
     },
-
-    imagem: {
-        justifyContent: 'center',
-        alignItems: 'center',
+    header:{
+        flexDirection:'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
 
     title: {
         fontSize: 30,
         marginBottom: 16,
         marginTop: 20,
-        color: '#13131a',
+        color: '#EBF6FF',
         fontWeight: 'bold'
     },
 
@@ -28,7 +28,13 @@ export default StyleSheet.create({
         paddingRight: 16,
         flexDirection:'row',
         justifyContent: 'space-between',
-        alignItems:'center',
+        alignContent:'stretch',
+    },
+    homeListrow: {
+        paddingRight: 16,
+        flexDirection:'row',
+        justifyContent: 'space-between',
+        alignContent:'stretch',
     },
 
     home:{
@@ -47,8 +53,9 @@ export default StyleSheet.create({
         shadowRadius:0.22,
         elevation:3,
     },
-    iconCenter:{
-        textAlign:'center'
+    icon:{
+        textAlign:'center',
+        color: '#006DD4'
     },
 
     vehicleProperty: {
@@ -65,7 +72,7 @@ export default StyleSheet.create({
     },
 
     detailsButtonText: {
-        color: '#000',
+        color: '#006DD4',
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center',
