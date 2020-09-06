@@ -17,13 +17,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.muuriloaraujo.amfleet",
-      "googleServicesFile": "./GoogleService-Info.plist"
-    },
-    "android": {
-      "package": "com.muuriloaraujo.amfleet",
-      "googleServicesFile":"./google-services.json"
+      "supportsTablet": true
     },
     "web": {
       "favicon": "./assets/favicon.png"

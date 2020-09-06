@@ -1,41 +1,104 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, Image, Text} from 'react-native';
 import {TouchableRipple} from 'react-native-paper';
 import { TextInput } from 'react-native-gesture-handler';
 import styles from './styles';
-import {useNavigation} from '@react-navigation/native';
+import firebase from 'firebase';
+import logoImg from '../../assets/logoGrande.png';
 
 
-export default function Login(){
 
-    const navigation = useNavigation();
+export default class Login extends Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            email: '',
+            password:'',
+            isAuthenticated: false,
+        }; 
 
-    function navigateToHome(){
-        
-        navigation.navigate('Home');
+        this.componentDidMount = () => {
+            this.checkIfLoggedIn();
+        }
     }
-    return(
-        <View style={styles.container}>
-            <TextInput
-                style={styles.input}
-                placeholder="Digite seu email"
-            />
 
-            <TextInput
-                style={styles.input}
-                placeholder="Digite sua senha"
-            />
+ 
+    checkIfLoggedIn = () => {
 
-            <TouchableRipple 
-                style={styles.button}
-                rippleColor="#E9EEF3"
-                onPress={navigateToHome}
-            >
-                <View>
-                <Text style={styles.buttonText}>Entrar</Text>
+        firebase.auth().onAuthStateChanged(function(user){
+
+            if(user){
+                this.props.navigation.navigate('Home');
+            }
+            else{
+                this.props.navigation.navigate('Login');
+            }
+        }.bind(this)
+        );
+    }
+
+    login = async () =>{
+
+        try{
+            const user = await firebase.auth()
+                .signInWithEmailAndPassword(this.state.email, this.state.password).
+                then(() =>{
+                    this.setState({ isAuthenticated: true});
+                    console.log(user);
+                    this.props.navigation.navigate('Home');
+                })
+                .catch(error => {
+                    if (error.code === 'auth/invalid-email') {
+                      console.log('Email ou senha incorreto!');
+                    }
+                    console.error(error);
+                });
+        }catch (err){
+            console.log(err);
+        }
+    }
+    render(){
+        return(
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Image source={logoImg}/>
                 </View>
-            </TouchableRipple>
+                <View style={styles.body}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Digite seu email"
+                        value={this.state.email}
+                        onChangeText={email=> this.setState({email})}
+                    />
 
-        </View>
-    )
-};
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Digite sua senha"
+                        value={this.state.password}
+                        onChangeText={password=> this.setState({password})}
+                    />
+
+                    <TouchableRipple 
+                        style={styles.button}
+                        rippleColor="#E9EEF3"
+                        onPress={this.login}
+                    >
+                        <View>
+                        <Text style={styles.buttonText}>Entrar</Text>
+                        </View>
+                    </TouchableRipple>
+
+                    <TouchableRipple 
+                        style={styles.buttonCadastro}
+                        rippleColor="#E9EEF3"
+                        onPress={this.login}
+                    >
+                        <View>
+                        <Text style={styles.buttonText}>Cadastrar</Text>
+                        </View>
+                    </TouchableRipple>
+                </View>
+            </View> 
+        )
+    }
+} 
