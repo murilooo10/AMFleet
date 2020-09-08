@@ -1,10 +1,11 @@
 import React from 'react';
 import {Feather} from '@expo/vector-icons';
 import {View, FlatList, Image, Text, TouchableOpacity} from 'react-native';
-
+import firebase from 'firebase';
 import logoImg from '../../assets/logo.png';
 import styles from './styles';
-import { Searchbar } from 'react-native-paper';
+import { Searchbar, TextInput, Button } from 'react-native-paper';
+import {FontAwesome} from '@expo/vector-icons';
 
 export default function Home(){
     return(
@@ -13,12 +14,15 @@ export default function Home(){
                 <Image source={logoImg} />
                 
                 <Text style={styles.headerText}>
-                    {'\n\n\n\n\nTotal de'}<Text style={styles.headerTextBold}> 12 motoristas</Text>
+                    {'\n\n\n\n\nTotal de'}<Text style={styles.headerTextBold}> 3 motoristas</Text>
                 </Text>
             </View>
+
             <Text style={styles.description}>Procure um motorista</Text>
             <Searchbar></Searchbar>
-
+            <Text>{'\n'}</Text>
+            <Text><FontAwesome name="user-plus" size={29} color="green" />  (Adicionar motorista) </Text>
+           
             <FlatList
                 style={styles.vehicleList}
                 data={[1,2,3]}
@@ -39,7 +43,7 @@ export default function Home(){
                         <Text style={styles.vehicleValue}>1234567891</Text>
 
                         <Text style={styles.vehicleProperty}>Sexo:</Text>
-                        <Text style={styles.vehicleValue}>1234567891</Text>
+                        <Text style={styles.vehicleValue}>M</Text>
 
                         <Text style={styles.vehicleProperty}>Nº da carteira de trabalho:</Text>
                         <Text style={styles.vehicleValue}>1234567891</Text>
