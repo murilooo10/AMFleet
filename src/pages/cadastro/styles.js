@@ -12,7 +12,7 @@ export default StyleSheet.create({
         flexDirection:'row',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical:70,
+        paddingVertical:20,
     },
     body:{
         justifyContent: 'center',
@@ -40,7 +40,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    buttonCadastro:{
+    buttonLogin:{
         marginTop: 20,
         paddingHorizontal: 20,
         justifyContent: 'center',
@@ -51,7 +51,7 @@ export default StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
     },
-    buttonTextCadastro: {
+    buttonTextLogin: {
         color:'#4f8cff',
         fontWeight: 'bold',
     },

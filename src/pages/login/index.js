@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Image, Text} from 'react-native';
+import {View, Image, Text, TouchableOpacity} from 'react-native';
 import {TouchableRipple} from 'react-native-paper';
 import { TextInput } from 'react-native-gesture-handler';
 import styles from './styles';
@@ -20,6 +20,10 @@ export default class Login extends Component{
         this.componentDidMount = () => {
             this.checkIfLoggedIn();
         }
+
+        this.emailOrPasswordwrong = this.emailOrPasswordwrong.bind(this);
+        this.login = this.login.bind(this);
+        this.navigatoToCadastro = this.navigatoToCadastro.bind(this);
     }
 
  
@@ -37,26 +41,53 @@ export default class Login extends Component{
         );
     }
 
-    login = async () =>{
+    login(e){
 
         try{
-            const user = await firebase.auth()
-                .signInWithEmailAndPassword(this.state.email, this.state.password).
+            const {email, password} = this.state;
+            const user = firebase.auth()
+                .signInWithEmailAndPassword(email.trim(), password).
                 then(() =>{
                     this.setState({ isAuthenticated: true});
                     console.log(user);
                     this.props.navigation.navigate('Home');
                 })
                 .catch(error => {
-                    if (error.code === 'auth/invalid-email') {
-                      console.log('Email ou senha incorreto!');
+                    switch (error.code) {
+                        case 'auth/invalid-email':
+                            this.emailOrPasswordwrong();
+                            console.log('entrou qui');
+                        break;
+                        case 'auth/invalid-password':
+                            this.emailOrPasswordwrong();
+                        break;
+                        case 'auth/user-not-found':
+                            this.emailOrPasswordwrong();
+                        break;
+                    default:
+                        alert("ERRO: " + error.code)
+                        break;
                     }
                     console.error(error);
                 });
+                e.preventDefault();
         }catch (err){
             console.log(err);
         }
     }
+
+    //texto para email ou senha incorreto e não funciona
+   emailOrPasswordwrong(){
+        return(
+            <Text style={styles.wrongText}>Email ou senha incorreto!</Text>
+        )
+    }
+
+    navigatoToCadastro(){
+        this.props.navigation.navigate('Cadastro');
+    }
+
+
     render(){
         return(
             <View style={styles.container}>
@@ -74,6 +105,7 @@ export default class Login extends Component{
                     <TextInput
                         style={styles.input}
                         placeholder="Digite sua senha"
+                        secureTextEntry={true}
                         value={this.state.password}
                         onChangeText={password=> this.setState({password})}
                     />
@@ -88,15 +120,13 @@ export default class Login extends Component{
                         </View>
                     </TouchableRipple>
 
-                    <TouchableRipple 
+                    <TouchableOpacity 
                         style={styles.buttonCadastro}
-                        rippleColor="#E9EEF3"
-                        onPress={this.login}
+                        onPress={this.navigatoToCadastro}
                     >
-                        <View>
-                        <Text style={styles.buttonText}>Cadastrar</Text>
-                        </View>
-                    </TouchableRipple>
+                        <Text style={styles.buttonTextCadastro}>Não possui cadastro? Clique aqui!</Text>
+                        
+                    </TouchableOpacity>
                 </View>
             </View> 
         )

@@ -7,18 +7,20 @@ import Motoristas from './pages/motoristas'
 import Comprovantes from './pages/comprovantes'
 import Pecas from './pages/pecas';
 import Login from './pages/login';
+import Cadastro from './pages/cadastro';
 import firebase from 'firebase';
 import {firebasecConfig} from './banco/index.js';
 
 firebase.initializeApp(firebasecConfig);
-
 const AppStack = createStackNavigator();
 
 export default function Routes(){
+
     return(
         <NavigationContainer>
             <AppStack.Navigator screenOptions={{headerShown: false}}>
                 <AppStack.Screen name="Login" component={Login} />
+                <AppStack.Screen name="Cadastro" component={Cadastro} />
                 <AppStack.Screen name="Home" component={Home} />
                 <AppStack.Screen name="Veiculos" component={Veiculos} />
                 <AppStack.Screen name="Motoristas" component={Motoristas} />
