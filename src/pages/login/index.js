@@ -8,6 +8,7 @@ import logoImg from '../../assets/logoGrande.png';
 
 
 
+
 export default class Login extends Component{
     constructor(props){
         super(props)
@@ -15,75 +16,42 @@ export default class Login extends Component{
             email: '',
             password:'',
             isAuthenticated: false,
+            errorMessage: null,
         }; 
-
-        this.componentDidMount = () => {
-            this.checkIfLoggedIn();
-        }
-
-        this.emailOrPasswordwrong = this.emailOrPasswordwrong.bind(this);
-        this.login = this.login.bind(this);
-        this.navigatoToCadastro = this.navigatoToCadastro.bind(this);
-    }
-
- 
-    checkIfLoggedIn = () => {
 
         firebase.auth().onAuthStateChanged(function(user){
 
             if(user){
-                this.props.navigation.navigate('Home');
+                this.setState({
+                    isAuthenticated: true,
+                })
+                console.log(user)
+                this.navigateToHome();
+
             }
             else{
-                this.props.navigation.navigate('Login');
+                this.props.navigation.navigate('Login')
             }
         }.bind(this)
         );
-    }
 
-    login(e){
+}
+    handleLogin = async() =>{
 
         try{
             const {email, password} = this.state;
-            const user = firebase.auth()
-                .signInWithEmailAndPassword(email.trim(), password).
-                then(() =>{
-                    this.setState({ isAuthenticated: true});
-                    console.log(user);
-                    this.props.navigation.navigate('Home');
-                })
-                .catch(error => {
-                    switch (error.code) {
-                        case 'auth/invalid-email':
-                            this.emailOrPasswordwrong();
-                            console.log('entrou qui');
-                        break;
-                        case 'auth/invalid-password':
-                            this.emailOrPasswordwrong();
-                        break;
-                        case 'auth/user-not-found':
-                            this.emailOrPasswordwrong();
-                        break;
-                    default:
-                        alert("ERRO: " + error.code)
-                        break;
-                    }
-                    console.error(error);
-                });
-                e.preventDefault();
+            await firebase.auth()
+                .signInWithEmailAndPassword(email, password).catch(error => {this.setState({errorMessage : error.message})});
+
         }catch (err){
             console.log(err);
         }
     }
 
-    //texto para email ou senha incorreto e não funciona
-   emailOrPasswordwrong(){
-        return(
-            <Text style={styles.wrongText}>Email ou senha incorreto!</Text>
-        )
+    navigateToHome = () => {
+        this.props.navigation.navigate('Home');
     }
-
-    navigatoToCadastro(){
+    navigatoToCadastro = () =>{
         this.props.navigation.navigate('Cadastro');
     }
 
@@ -109,11 +77,13 @@ export default class Login extends Component{
                         value={this.state.password}
                         onChangeText={password=> this.setState({password})}
                     />
-
+                    <View style={styles.errorMessage}>
+                        {this.state.errorMessage && <Text style={styles.wrongText}>Email ou senha incorreto!</Text>}
+                    </View>
                     <TouchableRipple 
                         style={styles.button}
                         rippleColor="#E9EEF3"
-                        onPress={this.login}
+                        onPress={this.handleLogin}
                     >
                         <View>
                         <Text style={styles.buttonText}>Entrar</Text>

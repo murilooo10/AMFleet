@@ -14,6 +14,9 @@ import {firebasecConfig} from './banco/index.js';
 firebase.initializeApp(firebasecConfig);
 const AppStack = createStackNavigator();
 
+import { YellowBox } from 'react-native';
+YellowBox.ignoreWarnings(['Setting a timer']);
+
 export default function Routes(){
 
     return(

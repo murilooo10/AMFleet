@@ -55,8 +55,15 @@ export default StyleSheet.create({
         color:'#4f8cff',
         fontWeight: 'bold',
     },
+    errorMessage:{
+        height:30,
+        alignItems:"center",
+        justifyContent:"center",
+        marginHorizontal:30
+    },
     wrongText:{
         fontWeight:'bold',
-        color:'red',
+        color:"#E9446A",
+        textAlign:'center',
     }
 });

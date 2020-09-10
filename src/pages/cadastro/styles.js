@@ -58,5 +58,16 @@ export default StyleSheet.create({
     wrongText:{
         fontWeight:'bold',
         color:'red',
+    },
+    errorMessage:{
+        height:30,
+        alignItems:"center",
+        justifyContent:"center",
+        marginHorizontal:30
+    },
+    wrongText:{
+        fontWeight:'bold',
+        color:"#E9446A",
+        textAlign:'center',
     }
 });

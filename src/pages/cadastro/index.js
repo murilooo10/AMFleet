@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react';
 import {View, Image, Text, TouchableOpacity} from 'react-native';
 import {TouchableRipple} from 'react-native-paper';
@@ -5,6 +6,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import styles from './styles';
 import firebase from 'firebase';
 import logoImg from '../../assets/logoGrande.png';
+import md5 from 'md5';
 
 
 
@@ -40,18 +42,9 @@ export default class Cadastro extends Component{
                     matricula: this.state.matricula,
                     nome: this.state.nome,
                     sobrenome: this.state.sobrenome,
+                    tipoDeUsuario: 1,
                     email: this.state.email,
-                    password: this.state.password
-
-                }).then(() => {
-                    this.setState({
-                        matricula: "",
-                        tipoDeUsuario: 1,
-                        nome: "",
-                        sobrenome: "",
-                        email: "",
-                        password: ""
-                    })
+                    password: md5(this.state.password)
                 })
             }else{
                 this.props.navigation.navigate('Cadastro');
@@ -60,36 +53,27 @@ export default class Cadastro extends Component{
         );
     }
 
-    cadastro(e){
+    cadastro = () =>{
 
         try{
-            const {email, password} = this.state;
-            
-            firebase.auth()
-                .createUserWithEmailAndPassword(email.trim(), password)
-                .then((sucess) =>{
-                    alert('cadastrado com sucesso!');
-                })
-                .catch(error => {
-                    switch (error.code) {
-                        case 'auth/invalid-email':
-                            alert('email invalido');
-                        break;
-                        case 'auth/weak-password':
-                            alert('senha fraca');
-                        break;
-                        case 'auth/email-already-in-use':
-                            alert('Este email já existe.');
-                        break;
-                    default:
-                        alert("ERRO: " + error.code)
-                        break;
-                    }
-                    console.error(error);
-                });
-                e.preventDefault();
-        }catch (err){
-            console.log(err);
+            const {email, password, confirmarSenha, matricula, nome} = this.state;
+            if(matricula != null && email != null && password != null && confirmarSenha != null && nome!=null){
+                if(password != confirmarSenha){
+                    this.setState({errorMessage: "'Confirmar Senha' diferente de 'Senha'"}); 
+                }else{
+                    firebase.auth()
+                    .createUserWithEmailAndPassword(email.trim(), password)
+                    .then((sucess) =>{
+                        this.setState({ isAuthenticated:true});
+                        alert('cadastrado com sucesso!');
+                        this.navigatoToLogin();
+                    }).catch(error => {this.setState({errorMessage : error.message})});
+                }
+            }else{
+                this.setState({errorMessage: "Preencha todos os campos presentes!"});
+            }
+        }catch (error){
+            this.setState({errorMessage : error.message});
         }
     }
 
@@ -150,6 +134,9 @@ export default class Cadastro extends Component{
                         value={this.state.confirmarSenha}
                         onChangeText={confirmarSenha=> this.setState({confirmarSenha})}
                     />
+                    <View style={styles.errorMessage}>
+                        {this.state.errorMessage && <Text style={styles.wrongText}>{this.state.errorMessage}</Text>}
+                    </View>
 
                     <TouchableRipple 
                         style={styles.button}
