@@ -55,7 +55,7 @@ export default class Home extends Component{
         var uid = firebase.auth().currentUser.uid;
 
         firebase.database().ref('usuario/' + uid).once('value', (data) => {
-            console.log(data);
+        
             this.setState({
                 nome: data.val().nome
             })
@@ -98,7 +98,9 @@ export default class Home extends Component{
         this.props.navigation.navigate('Pecas');
     }
 
-
+    navigateToAgendamento = () => {
+        this.props.navigation.navigate('Agendamento');
+    }
 
     render(){
     return(
@@ -163,8 +165,18 @@ export default class Home extends Component{
                             <Text style={styles.detailsButtonText}>Peças</Text>
                         </View>
                     </TouchableRipple>
-
-
+            </View>
+            <View style={styles.homeListrow}>
+                    <TouchableRipple 
+                        rippleColor="#E9EEF3"
+                        style={styles.home} 
+                        onPress={this.navigateToAgendamento}
+                    >
+                        <View>
+                            <FontAwesome5 style={styles.icon} name="calendar-alt" size={120}/>
+                            <Text style={styles.detailsButtonText}>Agendamento</Text>
+                        </View>
+                    </TouchableRipple>
             </View>
         </View>
     )
