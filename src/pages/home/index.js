@@ -55,7 +55,7 @@ export default class Home extends Component{
         var uid = firebase.auth().currentUser.uid;
 
         firebase.database().ref('usuario/' + uid).once('value', (data) => {
-        
+            console.log(data);
             this.setState({
                 nome: data.val().nome
             })

@@ -29,9 +29,9 @@ export default function Routes(){
                 <AppStack.Screen name="Home" component={Home} />
                 <AppStack.Screen name="Veiculos" component={Veiculos} />
                 <AppStack.Screen name="Motoristas" component={Motoristas} />
-		<AppStack.Screen name="Comprovantes" component={Comprovantes} />
-		<AppStack.Screen name="Pecas" component={Pecas} />
-		<AppStack.Screen name="Agendamento" component={Agendamento} />
+                <AppStack.Screen name="Comprovantes" component={Comprovantes} />
+                <AppStack.Screen name="Pecas" component={Pecas} />
+                <AppStack.Screen name="Agendamento" component={Agendamento} />
                 <AppStack.Screen name="Agendamentopecas" component={Agendamentopecas} />
             </AppStack.Navigator>
 

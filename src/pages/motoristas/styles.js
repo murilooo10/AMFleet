@@ -9,7 +9,22 @@ export default StyleSheet.create({
         backgroundColor: '#EBF6FF'
         
     },
-
+    containerModal: {
+        paddingHorizontal: 24,
+        paddingTop: 20,
+        
+    },
+    errorMessage:{
+        height:30,
+        alignItems:"center",
+        justifyContent:"center",
+        marginHorizontal:30
+    },
+    wrongText:{
+        fontWeight:'bold',
+        color:"#E9446A",
+        textAlign:'center',
+    },
     header: {
         flexDirection:'row',
         justifyContent: 'space-between',
@@ -21,22 +36,17 @@ export default StyleSheet.create({
         color:'#737380'
     },
 
-    headerTextBold: {
-        fontWeight:'bold'
-    },
-
-    title: {
-        fontSize: 30,
-        marginBottom: 16,
-        marginTop: 48,
-        color: '#13131a',
-        fontWeight: 'bold'
+    alinharClose: {
+        alignSelf:'flex-end',
+        paddingBottom:10,
     },
 
     description: {
         fontSize: 16,
         lineHeight: 24,
         color: '#737380',
+        fontWeight: 'bold',
+        paddingBottom:20
     },
 
     vehicleList: {
@@ -68,10 +78,54 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         alignItems:'center',
     },
+    detailsButtonAdd:{
+        flexDirection:'row',
+    },
 
     detailsButtonText: {
         color: '#4f8cff',
         fontSize: 15,
         fontWeight: 'bold'
-    }
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+      },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 20,
+        justifyContent:'space-between',
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+      },
+      input: {
+        height: 60,
+        backgroundColor:'#fff',
+        borderRadius: 8,
+        alignSelf: 'stretch',
+        borderColor: '#eee', 
+        borderWidth: 1,
+        paddingHorizontal: 20,
+        marginBottom: 10,
+    },
+      button: {
+        height: 60,
+        backgroundColor:'#00cc00',
+        borderRadius: 8,
+        marginTop: 20,
+        alignSelf: 'stretch',
+        paddingHorizontal: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });

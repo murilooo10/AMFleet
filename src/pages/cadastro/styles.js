@@ -55,10 +55,6 @@ export default StyleSheet.create({
         color:'#4f8cff',
         fontWeight: 'bold',
     },
-    wrongText:{
-        fontWeight:'bold',
-        color:'red',
-    },
     errorMessage:{
         height:30,
         alignItems:"center",

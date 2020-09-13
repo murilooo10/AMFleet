@@ -21,6 +21,7 @@ export default class Cadastro extends Component{
             email: '',
             senha: '',
             confirmarSenha: '',
+            errorMessage: null,
         }; 
 
         this.componentDidMount = () => {

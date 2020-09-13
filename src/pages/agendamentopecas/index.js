@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {Component}from 'react';
 import {Feather} from '@expo/vector-icons';
 import {View, FlatList, Image, Text, TouchableOpacity} from 'react-native';
 import logoImg from '../../assets/logo.png';
@@ -6,17 +6,21 @@ import styles from './styles';
 import { Searchbar } from 'react-native-paper';
 import {useNavigation, useRoute } from '@react-navigation/native';
 
-export default () => {
-    const navigation = useNavigation();
-    const route = useRoute();
-
-    const [userInfor, setUserInfo] = useState({
-        id: route.params.id,
-        marca: route.params.marca,
-        modelo: route.params.modelo,
-        placa: route.params.placa, 
-    });
-
+export default class AgendamentoPecas extends Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            isLogged: false,
+            matricula: "",
+            nome: '',
+            sobrenome: '',
+            email: '',
+            senha: '',
+            confirmarSenha: '',
+            errorMessage: null,
+        }; 
+    }
+    render(){
     return(
         <View style={styles.container}>
         <View style={styles.header}>
@@ -53,5 +57,5 @@ export default () => {
         />
 
     </View>
-    );
+    )}
 }
