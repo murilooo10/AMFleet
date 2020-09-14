@@ -147,29 +147,6 @@ export default class Home extends Component{
                     <TouchableRipple 
                         rippleColor="#E9EEF3"
                         style={styles.home} 
-                        onPress={this.navigateToComprovantes}
-                    >
-                        <View>
-                            <FontAwesome5 style={styles.icon} name="file-invoice-dollar" size={120}/>
-                            <Text style={styles.detailsButtonText}>Comprovantes</Text>
-                        </View>
-                    </TouchableRipple>
-
-                    <TouchableRipple 
-                        rippleColor="#E9EEF3"
-                        style={styles.home} 
-                        onPress={this.navigateToPecas}
-                    >
-                        <View>
-                            <MaterialCommunityIcons style={styles.icon} name="car-battery" size={120} />
-                            <Text style={styles.detailsButtonText}>Peças</Text>
-                        </View>
-                    </TouchableRipple>
-            </View>
-            <View style={styles.homeListrow}>
-                    <TouchableRipple 
-                        rippleColor="#E9EEF3"
-                        style={styles.home} 
                         onPress={this.navigateToAgendamento}
                     >
                         <View>

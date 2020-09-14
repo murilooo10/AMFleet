@@ -9,7 +9,6 @@ import Pecas from './pages/pecas';
 import Login from './pages/login';
 import Cadastro from './pages/cadastro';
 import Agendamento from './pages/agendamento';
-import Agendamentopecas from './pages/agendamentopecas';
 import firebase from 'firebase';
 import {firebasecConfig} from './banco/index.js';
 
@@ -32,7 +31,6 @@ export default function Routes(){
                 <AppStack.Screen name="Comprovantes" component={Comprovantes} />
                 <AppStack.Screen name="Pecas" component={Pecas} />
                 <AppStack.Screen name="Agendamento" component={Agendamento} />
-                <AppStack.Screen name="Agendamentopecas" component={Agendamentopecas} />
             </AppStack.Navigator>
 
         </NavigationContainer>

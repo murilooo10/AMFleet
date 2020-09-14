@@ -49,24 +49,24 @@ export default StyleSheet.create({
         paddingBottom:20
     },
 
-    vehicleList: {
+    driverList: {
         marginTop: 32,
     },
 
-    vehicle:{
+    driver:{
         padding: 24,
         borderRadius: 8,
         backgroundColor:'#fff',
         marginBottom: 16,
     },
 
-    vehicleProperty: {
+    driverProperty: {
         fontSize: 14,
         color:'#41414d',
         fontWeight:'bold'
     },
 
-    vehicleValue: {
+    driverValue: {
         marginTop: 8,
         fontSize: 15,
         marginBottom: 24,
@@ -83,7 +83,7 @@ export default StyleSheet.create({
     },
 
     detailsButtonText: {
-        color: '#4f8cff',
+        color: 'red',
         fontSize: 15,
         fontWeight: 'bold'
     },

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Feather} from '@expo/vector-icons';
-import {View, FlatList, Alert, Image, Modal, Text, TouchableOpacity, TouchableHighlight} from 'react-native';
+import {View, FlatList, Alert, Image, Modal, Text, TouchableOpacity} from 'react-native';
 import firebase from 'firebase';
 import logoImg from '../../assets/logo.png';
 import styles from './styles';
@@ -8,7 +8,6 @@ import { TextInput } from 'react-native-gesture-handler';
 import { Searchbar} from 'react-native-paper';
 import {FontAwesome, AntDesign} from '@expo/vector-icons';
 import {TouchableRipple} from 'react-native-paper';
-import _ from 'lodash';
 export default class Motorista extends Component{
     constructor(props){
         super(props)
@@ -29,7 +28,7 @@ export default class Motorista extends Component{
                 this.setState({
                     isAuthenticated: true,
                 })
-                this.getInformation();
+                this.getMotorista();
             }
             else{
                 this.setState({
@@ -49,7 +48,7 @@ export default class Motorista extends Component{
     }
     cadastrarMotorista = () =>{
         var uid = this.guidGenerator();
-        const {nome, sobrenome, idade, sexo, cpf, rg, cnh, email, password} = this.state;
+        const {nome, sobrenome, idade, sexo, cpf, rg, cnh} = this.state;
         if(nome != null && sobrenome != null && idade != null && sexo != null && cpf!=null && rg != null && cnh != null){
             firebase.database().ref(`motorista/${uid}`).set({
                 nome: this.state.nome,
@@ -60,13 +59,24 @@ export default class Motorista extends Component{
                 tipoDeUsuario: 3,
                 rg: this.state.rg,
                 cnh: this.state.cnh,
-                email: this.state.email
             })
-
+            alert('cadastrado com sucesso!');
         }else{
             this.setState({errorMessage: "Preencha todos os campos presentes!"});
 
         }
+    }
+    removerMotorista = () =>{
+        console.log('entrou aqui');
+        firebase.database().ref(`motorista/`).once('value', (data) =>{
+            data.forEach((uid) =>{
+                uid.val();
+            })
+        }).then(()=>{
+            alert('removido com sucesso');
+        }).catch(error =>{
+            console.log(error)
+        })
     }
     singOutAccount = () =>{
         firebase.auth().signOut().then(() =>{
@@ -79,11 +89,14 @@ export default class Motorista extends Component{
             console.log(error.code))
     }
 
-
-    getInformation = () =>{
+    navigateToLogin = () =>{
+        this.props.navigation.navigate('Login');
+    }
+    getMotorista = () =>{
         firebase.database().ref(`motorista/`).once('value', (data) =>{
-
+            console.log(' dataaaaaaaa '+data.val());
             data.forEach((uid) =>{
+                
                     this.state.list.push({
                         nome: uid.val().nome,
                         sobrenome:uid.val().sobrenome,
@@ -94,19 +107,10 @@ export default class Motorista extends Component{
                         cnh: uid.val().cnh,
                     })
                     this.setState({
-                        nome: uid.val().nome,
-                        sobrenome:uid.val().sobrenome,
-                        idade: uid.val().idade,
-                        rg: uid.val().rg,
-                        cpf: uid.val().cpf,
-                        sexo: uid.val().sexo,
-                        cnh: uid.val().cnh,
-                    }) 
+                        list : this.state.list
+                    })
             })
         })
-    }
-    navigateToDetailsMotorista = () =>{
-        this.props.navigation.navigate('DetailsMotorista');
     }
     render(){
     return(
@@ -124,7 +128,7 @@ export default class Motorista extends Component{
             </View>
 
             <Text style={styles.description}>Procure um motorista</Text>
-            <Searchbar placeholder="Escreva aqui..." style={styles.search} editable={true} value={this.state.search} onChangeText={this.updateSearch}></Searchbar>
+            <Searchbar placeholder="Escreva aqui..." style={styles.search} editable={true} value={this.state.search} ></Searchbar>
            <Modal
             animationType='slide'
             transparent={true}
@@ -187,18 +191,6 @@ export default class Motorista extends Component{
                             value={this.state.cnh}
                             onChangeText={cnh=> this.setState({cnh})}
                         />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Digite o email"
-                            value={this.state.email}
-                            onChangeText={email=> this.setState({email})}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Digite uma senha"
-                            value={this.state.password}
-                            onChangeText={password=> this.setState({password})}
-                        />
                         <View style={styles.errorMessage}>
                             {this.state.errorMessage && <Text style={styles.wrongText}>{this.state.errorMessage}</Text>}
                         </View>
@@ -225,36 +217,35 @@ export default class Motorista extends Component{
                 <Text style={{color:'#00cc00', fontWeight:'bold'}}>Adicionar Motorista</Text>
             </TouchableOpacity>
             <FlatList
-                style={styles.vehicleList}
+                style={styles.driverList}
                 data={this.state.list}
                 keyExtractor={(list, index) => String(index)}
                 showsVerticalScrollIndicator ={false}
                 renderItem={({item: list}) => (
-                    <View style={styles.vehicle}>
-                        <Text style={styles.vehicleProperty}>Nome Completo:</Text>
-                        <Text style={styles.vehicleValue}>{list.nome} {list.sobrenome}</Text>
+                    <View style={styles.driver}>
+                        <Text style={styles.driverProperty}>Nome Completo:</Text>
+                        <Text style={styles.driverValue}>{list.nome} {list.sobrenome}</Text>
 
-                        <Text style={styles.vehicleProperty}>Idade:</Text>
-                        <Text style={styles.vehicleValue}>{list.idade}</Text>
+                        <Text style={styles.driverProperty}>Idade:</Text>
+                        <Text style={styles.driverValue}>{list.idade}</Text>
 
-                        <Text style={styles.vehicleProperty}>RG:</Text>
-                        <Text style={styles.vehicleValue}>{list.rg}</Text>
+                        <Text style={styles.driverProperty}>RG:</Text>
+                        <Text style={styles.driverValue}>{list.rg}</Text>
 
-                        <Text style={styles.vehicleProperty}>CPF:</Text>
-                        <Text style={styles.vehicleValue}>{list.cpf}</Text>
+                        <Text style={styles.driverProperty}>CPF:</Text>
+                        <Text style={styles.driverValue}>{list.cpf}</Text>
 
-                        <Text style={styles.vehicleProperty}>Sexo:</Text>
-                        <Text style={styles.vehicleValue}>{list.sexo}</Text>
+                        <Text style={styles.driverProperty}>Sexo:</Text>
+                        <Text style={styles.driverValue}>{list.sexo}</Text>
 
-                        <Text style={styles.vehicleProperty}>Nº da carteira de trabalho:</Text>
-                        <Text style={styles.vehicleValue}>{list.cnh}</Text>
+                        <Text style={styles.driverProperty}>Nº da carteira de trabalho:</Text>
+                        <Text style={styles.driverValue}>{list.cnh}</Text>
 
                         <TouchableOpacity 
                             style={styles.detailsButton} 
-                            onPress={this.navigateToDetailsMotorista}
+                            onPress={this.removerMotorista}
                         >
-                            <Text style={styles.detailsButtonText}>Editar</Text>
-                            <Feather name="arrow-right" size={16} color='#4f8cff' />
+                            <Text style={styles.detailsButtonText}>Remover</Text>
                         </TouchableOpacity>
                     </View>
                 )}
