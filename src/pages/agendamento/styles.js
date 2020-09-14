@@ -56,6 +56,20 @@ export default StyleSheet.create({
         fontWeight:'bold'
     },
 
+    pecaProperty: {
+        fontSize: 16,
+        color:'#2E7BF0',
+        justifyContent: 'center',
+        alignItems:'center',
+        fontWeight:'bold'
+    },
+
+    agdendamentoProperty: {
+        fontSize: 22,
+        color:'#2E7BF0',
+        fontWeight:'bold'
+    },
+
     vehicleValue: {
         marginTop: 8,
         fontSize: 15,
