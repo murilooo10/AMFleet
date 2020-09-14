@@ -8,7 +8,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import { Searchbar} from 'react-native-paper';
 import {FontAwesome, AntDesign} from '@expo/vector-icons';
 import {TouchableRipple} from 'react-native-paper';
-
+import _ from 'lodash';
 export default class Motorista extends Component{
     constructor(props){
         super(props)
@@ -18,18 +18,18 @@ export default class Motorista extends Component{
             tipoDeUsuario: '',
             modalVisible: false,
             errorMessage: null,
+            list:[],
         };
         this.singOutAccount = this.singOutAccount.bind(this);
-
 }
     componentDidMount = () => {
         firebase.auth().onAuthStateChanged(function(user){
-            console.log(user);
+            
             if(user){
                 this.setState({
                     isAuthenticated: true,
                 })
-
+                this.getInformation();
             }
             else{
                 this.setState({
@@ -49,7 +49,7 @@ export default class Motorista extends Component{
     }
     cadastrarMotorista = () =>{
         var uid = this.guidGenerator();
-        const {nome, sobrenome, idade, sexo, cpf, rg, cnh} = this.state;
+        const {nome, sobrenome, idade, sexo, cpf, rg, cnh, email, password} = this.state;
         if(nome != null && sobrenome != null && idade != null && sexo != null && cpf!=null && rg != null && cnh != null){
             firebase.database().ref(`motorista/${uid}`).set({
                 nome: this.state.nome,
@@ -59,10 +59,10 @@ export default class Motorista extends Component{
                 cpf: this.state.cpf,
                 tipoDeUsuario: 3,
                 rg: this.state.rg,
-                cnh: this.state.cnh
-            }).then(()=>
-                alert('cadastrado com sucesso!')
-            )
+                cnh: this.state.cnh,
+                email: this.state.email
+            })
+
         }else{
             this.setState({errorMessage: "Preencha todos os campos presentes!"});
 
@@ -78,11 +78,31 @@ export default class Motorista extends Component{
         }).catch(error =>
             console.log(error.code))
     }
-    getInformation = () =>{
-        var uid = firebase.auth().currentUser.uid;
-        firebase.database().ref('motorista/' + uid).once('value', (data) =>{
-            console.log(data);
 
+
+    getInformation = () =>{
+        firebase.database().ref(`motorista/`).once('value', (data) =>{
+
+            data.forEach((uid) =>{
+                    this.state.list.push({
+                        nome: uid.val().nome,
+                        sobrenome:uid.val().sobrenome,
+                        idade: uid.val().idade,
+                        rg: uid.val().rg,
+                        cpf: uid.val().cpf,
+                        sexo: uid.val().sexo,
+                        cnh: uid.val().cnh,
+                    })
+                    this.setState({
+                        nome: uid.val().nome,
+                        sobrenome:uid.val().sobrenome,
+                        idade: uid.val().idade,
+                        rg: uid.val().rg,
+                        cpf: uid.val().cpf,
+                        sexo: uid.val().sexo,
+                        cnh: uid.val().cnh,
+                    }) 
+            })
         })
     }
     navigateToDetailsMotorista = () =>{
@@ -104,8 +124,7 @@ export default class Motorista extends Component{
             </View>
 
             <Text style={styles.description}>Procure um motorista</Text>
-            <Searchbar></Searchbar>
-            <Text>{'\n'}</Text>
+            <Searchbar placeholder="Escreva aqui..." style={styles.search} editable={true} value={this.state.search} onChangeText={this.updateSearch}></Searchbar>
            <Modal
             animationType='slide'
             transparent={true}
@@ -168,6 +187,18 @@ export default class Motorista extends Component{
                             value={this.state.cnh}
                             onChangeText={cnh=> this.setState({cnh})}
                         />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Digite o email"
+                            value={this.state.email}
+                            onChangeText={email=> this.setState({email})}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Digite uma senha"
+                            value={this.state.password}
+                            onChangeText={password=> this.setState({password})}
+                        />
                         <View style={styles.errorMessage}>
                             {this.state.errorMessage && <Text style={styles.wrongText}>{this.state.errorMessage}</Text>}
                         </View>
@@ -182,6 +213,7 @@ export default class Motorista extends Component{
                         </TouchableRipple>
                 </View>
             </Modal>
+            
             <TouchableOpacity 
                 style={styles.detailsButtonAdd} 
                 rippleColor="#E9EEF3"
@@ -194,28 +226,28 @@ export default class Motorista extends Component{
             </TouchableOpacity>
             <FlatList
                 style={styles.vehicleList}
-                data={motorista}
-                keyExtractor={motorista => motorista.uid}
+                data={this.state.list}
+                keyExtractor={(list, index) => String(index)}
                 showsVerticalScrollIndicator ={false}
-                renderItem={() => (
+                renderItem={({item: list}) => (
                     <View style={styles.vehicle}>
                         <Text style={styles.vehicleProperty}>Nome Completo:</Text>
-                        <Text style={styles.vehicleValue}>Augusto</Text>
+                        <Text style={styles.vehicleValue}>{list.nome} {list.sobrenome}</Text>
 
                         <Text style={styles.vehicleProperty}>Idade:</Text>
-                        <Text style={styles.vehicleValue}>24</Text>
+                        <Text style={styles.vehicleValue}>{list.idade}</Text>
 
                         <Text style={styles.vehicleProperty}>RG:</Text>
-                        <Text style={styles.vehicleValue}>1234567891</Text>
+                        <Text style={styles.vehicleValue}>{list.rg}</Text>
 
                         <Text style={styles.vehicleProperty}>CPF:</Text>
-                        <Text style={styles.vehicleValue}>1234567891</Text>
+                        <Text style={styles.vehicleValue}>{list.cpf}</Text>
 
                         <Text style={styles.vehicleProperty}>Sexo:</Text>
-                        <Text style={styles.vehicleValue}>M</Text>
+                        <Text style={styles.vehicleValue}>{list.sexo}</Text>
 
                         <Text style={styles.vehicleProperty}>Nº da carteira de trabalho:</Text>
-                        <Text style={styles.vehicleValue}>1234567891</Text>
+                        <Text style={styles.vehicleValue}>{list.cnh}</Text>
 
                         <TouchableOpacity 
                             style={styles.detailsButton} 

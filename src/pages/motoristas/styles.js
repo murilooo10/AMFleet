@@ -109,14 +109,14 @@ export default StyleSheet.create({
         elevation: 5
       },
       input: {
-        height: 60,
+        height: 50,
         backgroundColor:'#fff',
         borderRadius: 8,
         alignSelf: 'stretch',
         borderColor: '#eee', 
         borderWidth: 1,
-        paddingHorizontal: 20,
-        marginBottom: 10,
+        paddingHorizontal: 10,
+        marginBottom: 8,
     },
       button: {
         height: 60,
@@ -128,4 +128,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    search:{
+        marginBottom:30,
+    }
 });
