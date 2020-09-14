@@ -12,7 +12,7 @@ export default StyleSheet.create({
 
     header: {
         flexDirection:'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between', //space-between
         alignItems: 'center'
     },
 
@@ -51,7 +51,7 @@ export default StyleSheet.create({
     },
 
     vehicleProperty: {
-        fontSize: 14,
+        fontSize: 16,
         color:'#41414d',
         fontWeight:'bold'
     },
@@ -65,7 +65,7 @@ export default StyleSheet.create({
 
     detailsButton:{
         flexDirection:'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems:'center',
     },
 
