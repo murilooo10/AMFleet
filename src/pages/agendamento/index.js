@@ -3,10 +3,6 @@ import {Feather} from '@expo/vector-icons';
 import {View, FlatList, Alert, Image, Modal, Text, Picker, pickerStyle, TouchableOpacity, TouchableHighlight} from 'react-native';
 import logoImg from '../../assets/logo.png';
 import styles from './styles';
-import { Searchbar } from 'react-native-paper';
-import {useNavigation, useRoute } from '@react-navigation/native';
-import { render } from 'react-dom';
-import { TextInput } from 'react-native-gesture-handler';
 import RNPickerSelect from 'react-native-picker-select'; //rodar no terminal: npm install react-native-picker-select
 import {TouchableRipple} from 'react-native-paper';
 import {FontAwesome, AntDesign} from '@expo/vector-icons';

@@ -8,6 +8,11 @@ import { TextInput } from 'react-native-gesture-handler';
 import { Searchbar} from 'react-native-paper';
 import {FontAwesome, AntDesign} from '@expo/vector-icons';
 import {TouchableRipple} from 'react-native-paper';
+import DatePicker from 'react-native-datepicker';
+import moment from 'moment';
+import DateDiff from 'date-diff';
+
+
 export default class Motorista extends Component{
     constructor(props){
         super(props)
@@ -15,6 +20,7 @@ export default class Motorista extends Component{
             isAuthenticated: false,
             nome: '',
             tipoDeUsuario: '',
+            dataAdmissao:'',
             modalVisible: false,
             errorMessage: null,
             list:[],
@@ -29,6 +35,7 @@ export default class Motorista extends Component{
                     isAuthenticated: true,
                 })
                 this.getMotorista();
+
             }
             else{
                 this.setState({
@@ -48,8 +55,8 @@ export default class Motorista extends Component{
     }
     cadastrarMotorista = () =>{
         var uid = this.guidGenerator();
-        const {nome, sobrenome, idade, sexo, cpf, rg, cnh} = this.state;
-        if(nome != null && sobrenome != null && idade != null && sexo != null && cpf!=null && rg != null && cnh != null){
+        const {nome, sobrenome, idade, sexo, cpf, rg, cnh, carteiraDeTrabalho} = this.state;
+        if(nome != null && sobrenome != null && idade != null && sexo != null && cpf!=null && rg != null && cnh != null && carteiraDeTrabalho != null){
             firebase.database().ref(`motorista/${uid}`).set({
                 nome: this.state.nome,
                 sobrenome: this.state.sobrenome,
@@ -59,7 +66,10 @@ export default class Motorista extends Component{
                 tipoDeUsuario: 3,
                 rg: this.state.rg,
                 cnh: this.state.cnh,
+                carteiraDeTrabalho: this.state.carteiraDeTrabalho,
+                dataAdmissao: this.state.dataAdmissao,
             })
+            
             alert('cadastrado com sucesso!');
         }else{
             this.setState({errorMessage: "Preencha todos os campos presentes!"});
@@ -94,7 +104,6 @@ export default class Motorista extends Component{
     }
     getMotorista = () =>{
         firebase.database().ref(`motorista/`).once('value', (data) =>{
-            console.log(' dataaaaaaaa '+data.val());
             data.forEach((uid) =>{
                 
                     this.state.list.push({
@@ -105,11 +114,19 @@ export default class Motorista extends Component{
                         cpf: uid.val().cpf,
                         sexo: uid.val().sexo,
                         cnh: uid.val().cnh,
+                        carteiraDeTrabalho : uid.val().carteiraDeTrabalho,
+                        dataAdmissao: uid.val().dataAdmissao,
                     })
                     this.setState({
                         list : this.state.list
                     })
             })
+        })
+    }
+
+    changeDate = (valor) =>{
+        this.setState({
+            dataAdmissao:valor,
         })
     }
     render(){
@@ -181,7 +198,7 @@ export default class Motorista extends Component{
                         />
                         <TextInput
                             style={styles.input}
-                            placeholder="Digite o RG"
+                            placeholder="Digite o CPF"
                             value={this.state.cpf}
                             onChangeText={cpf=> this.setState({cpf})}
                         />
@@ -191,6 +208,18 @@ export default class Motorista extends Component{
                             value={this.state.cnh}
                             onChangeText={cnh=> this.setState({cnh})}
                         />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Digite o número da carteira de trabalho"
+                            value={this.state.carteiraDeTrabalho}
+                            onChangeText={carteiraDeTrabalho=> this.setState({carteiraDeTrabalho})}
+                        />
+                        <DatePicker
+                            format="DD/MM/YYYY"
+                            style={{widht:350}}
+                            date={this.state.data}
+                            onDateChange={this.changeDate}
+                            />
                         <View style={styles.errorMessage}>
                             {this.state.errorMessage && <Text style={styles.wrongText}>{this.state.errorMessage}</Text>}
                         </View>
@@ -239,7 +268,13 @@ export default class Motorista extends Component{
                         <Text style={styles.driverValue}>{list.sexo}</Text>
 
                         <Text style={styles.driverProperty}>Nº da carteira de trabalho:</Text>
+                        <Text style={styles.driverValue}>{list.carteiraDeTrabalho}</Text>
+
+                        <Text style={styles.driverProperty}>CNH:</Text>
                         <Text style={styles.driverValue}>{list.cnh}</Text>
+
+                        <Text style={styles.driverProperty}>Data de Admissão:</Text>
+                        <Text style={styles.driverValue}>{list.dataAdmissao}</Text>
 
                         <TouchableOpacity 
                             style={styles.detailsButton} 

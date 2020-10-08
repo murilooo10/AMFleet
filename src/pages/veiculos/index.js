@@ -240,14 +240,14 @@ zerarState =()=>{
                 showsVerticalScrollIndicator ={false}
                 renderItem={({item: list}) => (
                     <View style={styles.vehicle}>
-                        <Text style={styles.vehicleProperty}>Chassi:</Text>
-                        <Text style={styles.vehicleValue}>{list.chassi}</Text>
+                        <Text style={styles.vehicleProperty}>Modelo:</Text>
+                        <Text style={styles.vehicleValue}>{list.modelo}</Text>
                         
                         <Text style={styles.vehicleProperty}>Marca:</Text>
                         <Text style={styles.vehicleValue}>{list.marca}</Text>
 
-                        <Text style={styles.vehicleProperty}>Modelo:</Text>
-                        <Text style={styles.vehicleValue}>{list.modelo}</Text>
+                        <Text style={styles.vehicleProperty}>Chassi:</Text>
+                        <Text style={styles.vehicleValue}>{list.chassi}</Text>
 
                         <Text style={styles.vehicleProperty}>Placa:</Text>
                         <Text style={styles.vehicleValue}>{list.placa}</Text>
