@@ -9,8 +9,6 @@ import { Searchbar} from 'react-native-paper';
 import {FontAwesome, AntDesign} from '@expo/vector-icons';
 import {TouchableRipple} from 'react-native-paper';
 import DatePicker from 'react-native-datepicker';
-import moment from 'moment';
-import DateDiff from 'date-diff';
 
 
 export default class Motorista extends Component{

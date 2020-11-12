@@ -2,36 +2,7 @@ import { StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 
 export default StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingHorizontal: 24,
-        paddingTop: Constants.statusBarHeight + 20,
-        backgroundColor: '#EBF6FF'
-        
-    },
 
-    header: {
-        flexDirection:'row',
-        justifyContent: 'space-between', //space-between
-        alignItems: 'center'
-    },
-
-    headerText: {
-        fontSize:15,
-        color:'#737380'
-    },
-
-    headerTextBold: {
-        fontWeight:'bold'
-    },
-
-    title: {
-        fontSize: 30,
-        marginBottom: 16,
-        marginTop: 48,
-        color: '#13131a',
-        fontWeight: 'bold'
-    },
 
     description: {
         fontSize: 16,
@@ -39,53 +10,123 @@ export default StyleSheet.create({
         color: '#737380',
     },
 
-    vehicleList: {
-        marginTop: 32,
-    },
-
-    vehicle:{
-        padding: 24,
-        borderRadius: 8,
-        backgroundColor:'#fff',
-        marginBottom: 16,
-    },
-
-    vehicleProperty: {
-        fontSize: 16,
-        color:'#41414d',
-        fontWeight:'bold'
-    },
-
-    pecaProperty: {
-        fontSize: 16,
-        color:'#2E7BF0',
+    taskListContent: {
+        height: 100,
+        width: 327,
+        alignSelf: 'center',
+        borderRadius: 10,
+        shadowColor: '#2E66E7',
+        backgroundColor: '#ffffff',
+        marginTop: 10,
+        marginBottom: 10,
+        shadowOffset: {
+          width: 3,
+          height: 3,
+        },
+        shadowRadius: 5,
+        shadowOpacity: 0.2,
+        elevation: 3,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      },
+      viewTask: {
+        position: 'absolute',
+        bottom: 40,
+        right: 17,
+        height: 60,
+        width: 60,
+        backgroundColor: '#2E66E7',
+        borderRadius: 30,
         justifyContent: 'center',
-        alignItems:'center',
-        fontWeight:'bold'
-    },
-
-    agdendamentoProperty: {
-        fontSize: 22,
-        color:'#2E7BF0',
-        fontWeight:'bold'
-    },
-
-    vehicleValue: {
-        marginTop: 8,
-        fontSize: 15,
-        marginBottom: 24,
-        color: '#737380'
-    },
-
-    detailsButton:{
-        flexDirection:'row',
+        alignItems: 'center',
+        shadowColor: '#2E66E7',
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowRadius: 30,
+        shadowOpacity: 0.5,
+        elevation: 5,
+        zIndex: 999,
+      },
+      deleteButton: {
+        backgroundColor: '#ff6347',
+        width: 100,
+        height: 38,
+        alignSelf: 'center',
+        marginTop: 40,
+        borderRadius: 5,
         justifyContent: 'center',
-        alignItems:'center',
-    },
-
-    detailsButtonText: {
-        color: '#4f8cff',
-        fontSize: 15,
-        fontWeight: 'bold'
-    }
+      },
+      updateButton: {
+        backgroundColor: '#2E66E7',
+        width: 100,
+        height: 38,
+        alignSelf: 'center',
+        marginTop: 40,
+        borderRadius: 5,
+        justifyContent: 'center',
+        marginRight: 20,
+      },
+      sepeerator: {
+        height: 0.5,
+        width: '100%',
+        backgroundColor: '#979797',
+        alignSelf: 'center',
+        marginVertical: 20,
+      },
+      notesContent: {
+        height: 0.5,
+        width: '100%',
+        backgroundColor: '#979797',
+        alignSelf: 'center',
+        marginVertical: 20,
+      },
+      learn: {
+        height: 23,
+        width: 51,
+        backgroundColor: '#F8D557',
+        justifyContent: 'center',
+        borderRadius: 5,
+      },
+      design: {
+        height: 23,
+        width: 59,
+        backgroundColor: '#62CCFB',
+        justifyContent: 'center',
+        borderRadius: 5,
+        marginRight: 7,
+      },
+      readBook: {
+        height: 23,
+        width: 83,
+        backgroundColor: '#4CD565',
+        justifyContent: 'center',
+        borderRadius: 5,
+        marginRight: 7,
+      },
+      title: {
+        height: 25,
+        borderColor: '#5DD976',
+        borderLeftWidth: 1,
+        paddingLeft: 8,
+        fontSize: 19,
+      },
+      taskContainer: {
+        height: 475,
+        width: 327,
+        alignSelf: 'center',
+        borderRadius: 20,
+        shadowColor: '#2E66E7',
+        backgroundColor: '#ffffff',
+        shadowOffset: {
+          width: 3,
+          height: 3,
+        },
+        shadowRadius: 20,
+        shadowOpacity: 0.2,
+        elevation: 5,
+        padding: 22,
+      },
 });

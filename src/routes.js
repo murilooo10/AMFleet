@@ -4,11 +4,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from './pages/home';
 import Veiculos from './pages/veiculos';
 import Motoristas from './pages/motoristas'
-import Comprovantes from './pages/comprovantes'
-import Pecas from './pages/pecas';
 import Login from './pages/login';
 import Cadastro from './pages/cadastro';
 import Agendamento from './pages/agendamento';
+import CreateTask from './pages/createTask';
+import FotoComprovante from './pages/fotoComprovante';
+import ListaComprovantes from './pages/listaComprovantes';
+import DetailsComprovantes from './pages/detailsComprovantes'
 import firebase from 'firebase';
 import {firebasecConfig} from './banco/index.js';
 
@@ -28,9 +30,11 @@ export default function Routes(){
                 <AppStack.Screen name="Home" component={Home} />
                 <AppStack.Screen name="Veiculos" component={Veiculos} />
                 <AppStack.Screen name="Motoristas" component={Motoristas} />
-                <AppStack.Screen name="Comprovantes" component={Comprovantes} />
-                <AppStack.Screen name="Pecas" component={Pecas} />
+                <AppStack.Screen name="FotoComprovante" component={FotoComprovante} />
+                <AppStack.Screen name="ListaComprovantes" component={ListaComprovantes} />
+                <AppStack.Screen name="DetailsComprovantes" component={DetailsComprovantes} />
                 <AppStack.Screen name="Agendamento" component={Agendamento} />
+                <AppStack.Screen name="CreateTask" component={CreateTask} />
             </AppStack.Navigator>
 
         </NavigationContainer>
