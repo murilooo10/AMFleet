@@ -18,43 +18,55 @@ export default StyleSheet.create({
         marginBottom:20,
         fontWeight:'bold',
         fontSize: 20,
-        lineHeight: 30,
+        lineHeight: 25,
     },
     title: {
         alignItems:'center',
         justifyContent:'center',
     },
 
-    details: {
-        padding: 24,
+    driver: {
+        padding: 20,
         borderRadius: 8,
         backgroundColor:'#fff',
         marginBottom: 16,
-        marginTop: 24,
     },
-    detailsProperty: {
+    driverProperty: {
         fontSize: 14,
         color:'#41414d',
         fontWeight:'bold',
         marginTop: 24,
     },
 
-    detailsValue: {
+    driverValue: {
         marginTop: 8,
         fontSize: 15,
         color: '#737380'
     },
     actions: {
         marginTop: 16,
+        justifyContent: 'space-between',
+        flexDirection:'row',
     },
-    delete: {
+    action: {
         backgroundColor:'#e02041',
         borderRadius: 8,
         height: 50,
+        width: '48%',
         justifyContent:'center',
         alignItems:'center'
     },
-    deleteText: {
+    input: {
+        height: 50,
+        backgroundColor:'#fff',
+        borderRadius: 8,
+        alignSelf: 'stretch',
+        borderColor: '#eee', 
+        borderWidth: 1,
+        paddingHorizontal: 10,
+        marginBottom: 8,
+    },
+    actionText: {
         color: '#FFF',
         fontSize: 15,
         fontWeight: 'bold',

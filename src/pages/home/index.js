@@ -163,7 +163,7 @@ export default class Home extends Component{
                                 <TouchableRipple 
                                     rippleColor="#E9EEF3"
                                     style={styles.home} 
-                                    onPress={() =>{}}
+                                    onPress={this.navigateToPecas}
                                 >
                                     <View>
                                         <FontAwesome5 style={styles.icon} name="car-battery" size={120}/>

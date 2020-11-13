@@ -10,7 +10,11 @@ import Agendamento from './pages/agendamento';
 import CreateTask from './pages/createTask';
 import FotoComprovante from './pages/fotoComprovante';
 import ListaComprovantes from './pages/listaComprovantes';
-import DetailsComprovantes from './pages/detailsComprovantes'
+import DetailsComprovantes from './pages/detailsComprovantes';
+import Pecas from './pages/pecas';
+import DetailsPecas from './pages/detailsPecas';
+import DetailsMotorista from './pages/detailsMotorista';
+import DetailsVeiculos from './pages/detailsVeiculos';
 import firebase from 'firebase';
 import {firebasecConfig} from './banco/index.js';
 
@@ -29,10 +33,14 @@ export default function Routes(){
                 <AppStack.Screen name="Cadastro" component={Cadastro} />
                 <AppStack.Screen name="Home" component={Home} />
                 <AppStack.Screen name="Veiculos" component={Veiculos} />
+                <AppStack.Screen name="DetailsVeiculos" component={DetailsVeiculos} />
                 <AppStack.Screen name="Motoristas" component={Motoristas} />
+                <AppStack.Screen name="DetailsMotorista" component={DetailsMotorista} />
                 <AppStack.Screen name="FotoComprovante" component={FotoComprovante} />
                 <AppStack.Screen name="ListaComprovantes" component={ListaComprovantes} />
                 <AppStack.Screen name="DetailsComprovantes" component={DetailsComprovantes} />
+                <AppStack.Screen name="Pecas" component={Pecas} />
+                <AppStack.Screen name="DetailsPecas" component={DetailsPecas} />
                 <AppStack.Screen name="Agendamento" component={Agendamento} />
                 <AppStack.Screen name="CreateTask" component={CreateTask} />
             </AppStack.Navigator>

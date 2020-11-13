@@ -100,6 +100,9 @@ export default class Motorista extends Component{
     navigateToLogin = () =>{
         this.props.navigation.navigate('Login');
     }
+    navigateToDetailsMotorista = () =>{
+        this.props.navigation.navigate('DetailsMotorista');
+    }
     getMotorista = () =>{
         firebase.database().ref(`motorista/`).once('value', (data) =>{
             data.forEach((uid) =>{
@@ -240,45 +243,45 @@ export default class Motorista extends Component{
                 this.setState({modalVisible: true});
                 }}
             >  
-                <AntDesign name="adduser" size={24} color="#00cc00" />
-                <Text style={{color:'#00cc00', fontWeight:'bold'}}>Adicionar Motorista</Text>
+                <Text style={{color:'#FFF', fontWeight:'bold'}}>Adicionar Motorista</Text>
             </TouchableOpacity>
             <FlatList
                 style={styles.driverList}
-                data={this.state.list}
+                data={[1,2,3]}
                 keyExtractor={(list, index) => String(index)}
                 showsVerticalScrollIndicator ={false}
                 renderItem={({item: list}) => (
                     <View style={styles.driver}>
                         <Text style={styles.driverProperty}>Nome Completo:</Text>
-                        <Text style={styles.driverValue}>{list.nome} {list.sobrenome}</Text>
+                        <Text style={styles.driverValue}>Murilo Araujo</Text>
 
                         <Text style={styles.driverProperty}>Idade:</Text>
-                        <Text style={styles.driverValue}>{list.idade}</Text>
+                        <Text style={styles.driverValue}>23</Text>
 
                         <Text style={styles.driverProperty}>RG:</Text>
-                        <Text style={styles.driverValue}>{list.rg}</Text>
+                        <Text style={styles.driverValue}>13123122</Text>
 
                         <Text style={styles.driverProperty}>CPF:</Text>
-                        <Text style={styles.driverValue}>{list.cpf}</Text>
+                        <Text style={styles.driverValue}>01238492812</Text>
 
                         <Text style={styles.driverProperty}>Sexo:</Text>
-                        <Text style={styles.driverValue}>{list.sexo}</Text>
+                        <Text style={styles.driverValue}>Masculino</Text>
 
                         <Text style={styles.driverProperty}>Nº da carteira de trabalho:</Text>
-                        <Text style={styles.driverValue}>{list.carteiraDeTrabalho}</Text>
+                        <Text style={styles.driverValue}>123523464</Text>
 
                         <Text style={styles.driverProperty}>CNH:</Text>
-                        <Text style={styles.driverValue}>{list.cnh}</Text>
+                        <Text style={styles.driverValue}>2314123412</Text>
 
                         <Text style={styles.driverProperty}>Data de Admissão:</Text>
-                        <Text style={styles.driverValue}>{list.dataAdmissao}</Text>
+                        <Text style={styles.driverValue}>15/09/2010</Text>
 
                         <TouchableOpacity 
                             style={styles.detailsButton} 
-                            onPress={this.removerMotorista}
+                            onPress={this.navigateToDetailsMotorista}
                         >
-                            <Text style={styles.detailsButtonText}>Remover</Text>
+                            <Text style={styles.detailsButtonText}>Ver detalhes</Text>
+                            <AntDesign name="right" size={24} color="#4f8cff" />
                         </TouchableOpacity>
                     </View>
                 )}

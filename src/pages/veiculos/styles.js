@@ -125,9 +125,14 @@ export default StyleSheet.create({
         alignItems:'center',
     },
     detailsButtonAdd:{
-        flexDirection:'row',
-        paddingBottom:30,
+        backgroundColor:'#00cc00',
+        borderRadius: 8,
+        height: 50,
+        justifyContent:'center',
+        alignItems:'center',
+        marginBottom:24,
     },
+
     modalView: {
         margin: 20,
         backgroundColor: "white",
@@ -144,11 +149,6 @@ export default StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5
       },
-    detailsButtonText: {
-        color: 'red',
-        fontSize: 15,
-        fontWeight: 'bold'
-    },
     textStyle: {
         color: "white",
         fontWeight: "bold",

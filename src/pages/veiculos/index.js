@@ -49,6 +49,9 @@ export default class Veiculos extends Component{
     navigateToLogin = () =>{
         this.props.navigation.navigate('Login');
     }
+    navigateToDetailsVeiculos = () =>{
+        this.props.navigation.navigate('DetailsVeiculos');
+    }
     guidGenerator() {
         var S4 = function() {
            return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -228,44 +231,44 @@ zerarState =()=>{
                 this.setState({modalVisible: true});
                 }}
             >  
-                <AntDesign name="adduser" size={24} color="#00cc00" />
-                <Text style={{color:'#00cc00', fontWeight:'bold'}}>Adicionar Veículo</Text>
+                <Text style={{color:'#FFF', fontWeight:'bold'}}>Adicionar Veículo</Text>
             </TouchableOpacity>
 
 
             <FlatList
                 style={styles.veichuleList}
-                data={this.state.list}
+                data={[1, 2, 3]}
                 keyExtractor={(list, index) => String(index)}
                 showsVerticalScrollIndicator ={false}
                 renderItem={({item: list}) => (
                     <View style={styles.vehicle}>
                         <Text style={styles.vehicleProperty}>Modelo:</Text>
-                        <Text style={styles.vehicleValue}>{list.modelo}</Text>
+                        <Text style={styles.vehicleValue}>Uno</Text>
                         
                         <Text style={styles.vehicleProperty}>Marca:</Text>
-                        <Text style={styles.vehicleValue}>{list.marca}</Text>
+                        <Text style={styles.vehicleValue}>Fiat</Text>
 
                         <Text style={styles.vehicleProperty}>Chassi:</Text>
-                        <Text style={styles.vehicleValue}>{list.chassi}</Text>
+                        <Text style={styles.vehicleValue}>12352346</Text>
 
                         <Text style={styles.vehicleProperty}>Placa:</Text>
-                        <Text style={styles.vehicleValue}>{list.placa}</Text>
+                        <Text style={styles.vehicleValue}>AWE - 3422</Text>
 
                         <Text style={styles.vehicleProperty}>Quilometragem:</Text>
-                        <Text style={styles.vehicleValue}>{list.quilometragem}</Text>
+                        <Text style={styles.vehicleValue}>13543</Text>
 
                         <Text style={styles.vehicleProperty}>Cor:</Text>
-                        <Text style={styles.vehicleValue}>{list.cor}</Text>
+                        <Text style={styles.vehicleValue}>Preto</Text>
 
                         <Text style={styles.vehicleProperty}>Avarias:</Text>
-                        <Text style={styles.vehicleValue}>{list.avarias}</Text>
+                        <Text style={styles.vehicleValue}>Nenhuma</Text>
 
                         <TouchableOpacity 
                             style={styles.detailsButton} 
-                            onPress={this.removerMotorista}
+                            onPress={this.navigateToDetailsVeiculos}
                         >
-                            <Text style={styles.detailsButtonText}>Remover</Text>
+                            <Text style={styles.detailsButtonText}>Ver detalhes</Text>
+                            <AntDesign name="right" size={24} color="#4f8cff" />
                         </TouchableOpacity>
                     </View>
                 )}

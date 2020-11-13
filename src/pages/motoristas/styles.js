@@ -79,11 +79,15 @@ export default StyleSheet.create({
         alignItems:'center',
     },
     detailsButtonAdd:{
-        flexDirection:'row',
+        backgroundColor:'#00cc00',
+        borderRadius: 8,
+        height: 50,
+        justifyContent:'center',
+        alignItems:'center',
     },
 
     detailsButtonText: {
-        color: 'red',
+        color: '#4f8cff',
         fontSize: 15,
         fontWeight: 'bold'
     },
