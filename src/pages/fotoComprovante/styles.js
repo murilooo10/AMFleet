@@ -1,54 +1,46 @@
-import { StyleSheet, Dimensions } from 'react-native';
-
-const { width: winWidth, height: winHeight } = Dimensions.get('window');
+import { StyleSheet } from 'react-native';
+import Constants from 'expo-constants';
 
 export default StyleSheet.create({
-    preview: {
+    container:{
         flex: 1,
-        height: winHeight,
-        width: winWidth,
-        position: 'absolute',
+        paddingTop: Constants.statusBarHeight,
     },
-    alignCenter: {
+
+    viewCamera:{
         flex: 1,
-        alignItems: 'center',
+        backgroundColor: 'transparent',
+        flexDirection: 'row'
+    },
+
+    buttonCamera:{
+        position: 'absolute',
+        bottom: 20,
+        left: 25,
+    },
+    takePicture:{
         justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#121212',
+        margin: 20,
+        borderRadius: 10,
+        height: 50,
     },
-    bottomToolbar: {
-        width: winWidth,
-        position: 'absolute',
-        height: 100,
-        bottom: 0,
+    modalView:{
+        flex: 1,
+        justifyContent:'center',
+        alignItems: 'center',
+        margin:10,
     },
-    captureBtn: {
-        width: 60,
-        height: 60,
-        borderWidth: 2,
-        borderRadius: 60,
-        borderColor: "#FFFFFF",
+    showImage:{
+        width:'100%',
+        height:'80%',
+        borderRadius:20,
     },
-    captureBtnActive: {
-        width: 80,
-        height: 80,
+    alingButtons:{
+        margin:10,
+        flexDirection: 'row',
+        
     },
-    captureBtnInternal: {
-        width: 76,
-        height: 76,
-        borderWidth: 2,
-        borderRadius: 76,
-        backgroundColor: "red",
-        borderColor: "transparent",
-    },
-    galleryContainer: { 
-        bottom: 100 
-    },
-    galleryImageContainer: { 
-        width: 75, 
-        height: 75, 
-        marginRight: 5 
-    },
-    galleryImage: { 
-        width: 75, 
-        height: 75 
-    }
+
 });

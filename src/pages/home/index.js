@@ -175,7 +175,7 @@ export default class Home extends Component{
                                 <TouchableRipple 
                                     rippleColor="#E9EEF3"
                                     style={styles.home} 
-                                    onPress={this.navigateToListaComprovantes}
+                                    onPress={this.navigateToFotoComprovante}
                                 >
                                     <View>
                                         <FontAwesome5 style={styles.icon} name="file-invoice-dollar" size={120}/>
