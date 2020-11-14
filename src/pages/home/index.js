@@ -106,6 +106,10 @@ export default class Home extends Component{
     navigateToListaComprovantes = () =>{
        this.props.navigation.navigate('ListaComprovantes');
     }
+    
+    navigateToAnalises = () =>{
+        this.props.navigation.navigate('Analises');
+     }
 
     render(){
     return(
