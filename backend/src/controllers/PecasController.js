@@ -2,20 +2,20 @@ const connection = require('../database/connection');
 
 module.exports = {
     async index(request, response){
-        const analise_motoristas = await connection('analise_motoristas').select('*');
+        const pecas = await connection('pecas').select('*');
 
-        return response.json(analise_motoristas);
+        return response.json(pecas);
 
     },
 
     async create(request, response){
-        const { nome, idade, cpf} = request.body;
+        const { nome, preco, descricao} = request.body;
         const matricula_usuarioChefe = request.headers.authorization;
 
-        const [id] = await connection('analise_motoristas').insert({
+        const [id] = await connection('pecas').insert({
             nome,
-            idade,
-            cpf,
+            preco,
+            descricao,
             matricula_usuarioChefe
         })
         
@@ -25,7 +25,7 @@ module.exports = {
     async delete(request, response){
         const { id } = request.params;
 
-        await connection('analise_motoristas').where('id', id).first().delete();
+        await connection('pecas').where('id', id).first().delete();
 
         return response.status(204).send();
     }
