@@ -15,7 +15,7 @@ module.exports = {
         const [id] = await connection('agendamento').insert({
             data,
             hora,
-            matricula_motorista,
+            //id_motorista,
             status,
             id_pecas,
             id_veiculo,

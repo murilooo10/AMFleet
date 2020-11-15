@@ -48,7 +48,7 @@ export default function FotoComprovante() {
         
         const asset = await MediaLibrary.createAssetAsync(capturedPhoto)
         .then(()=>{
-            alert('Salvo com sucesso!');
+            Alert.alert('Salvo com sucesso!');
         })
         .catch(error =>{
             console.log('err', error);

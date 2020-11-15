@@ -14,9 +14,11 @@ module.exports = {
 
         const [id] = await connection('pecas').insert({
             nome,
-            preco,
-            descricao,
-            matricula_usuarioChefe
+            //preco,
+            //descricao,
+            //matricula_usuarioChefe,
+            quantidade,
+            matricula_chefeManutencao,
         })
         
         return response.json({ id });

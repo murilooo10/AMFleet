@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import {Feather} from '@expo/vector-icons';
 import {View, FlatList, Alert, Image, Modal, Text, TouchableOpacity} from 'react-native';
 import firebase from 'firebase';
@@ -9,129 +9,23 @@ import {TouchableRipple} from 'react-native-paper';
 import logoImg from '../../assets/logo.png';
 import styles from './styles';
 
-export default class Veiculos extends Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            isAuthenticated: false,
-            marca: '',
-            modelo:'',
-            chassi:'',
-            cor:'',
-            avarias:'',
-            placa:'',
-            quilometragem:'',
-            modalVisible: false,
-            errorMessage: null,
-            list:[],
-        };
-        this.singOutAccount = this.singOutAccount.bind(this);
-}
-    componentDidMount = () => {
-        firebase.auth().onAuthStateChanged(function(user){
-            
-            if(user){
-                this.setState({
-                    isAuthenticated: true,
-                })
-                this.getVeiculo();
-            }
-            else{
-                this.setState({
-                    isAuthenticated: false,
-                })
-                this.navigateToLogin();
+export default function Veiculos(){
 
-            }
-        }.bind(this)
-        );
-    }
     navigateToLogin = () =>{
         this.props.navigation.navigate('Login');
     }
     navigateToDetailsVeiculos = () =>{
         this.props.navigation.navigate('DetailsVeiculos');
     }
-    guidGenerator() {
-        var S4 = function() {
-           return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-        };
-        return (S4()+S4()+S4()+S4()+S4()+S4());
-    }
-    cadastrarVeiculo = () =>{
-        var uid = this.guidGenerator();
-        const {marca, modelo, placa, chassi, cor, quilometragem, avarias} = this.state;
-        if(marca != null && modelo != null && placa != null && chassi != null && cor != null && quilometragem!=null && avarias != null){
-            firebase.database().ref(`veiculo/${uid}`).set({
-                marca: this.state.marca,
-                modelo: this.state.modelo,
-                placa: this.state.placa,
-                chassi: this.state.chassi,
-                cor: this.state.cor,
-                quilometragem: this.state.quilometragem,
-                avarias: this.state.avarias,
-            })
-            alert('cadastrado com sucesso!');
-        }else{
-            this.setState({errorMessage: "Preencha todos os campos presentes!"});
 
-        }
-    }
-    removerVeiculo = () =>{
-        console.log('entrou aqui');
-        firebase.database().ref(`veiculo/`).once('value', (data) =>{
-            data.forEach((uid) =>{
-                console.log(uid.val())
-            })
-        }).then(()=>{
-            alert('removido com sucesso');
-        }).catch(error =>{
-            console.log(error)
-        })
+    async function LoadVeiculos(){
+        
     }
 
-    singOutAccount = () =>{
-        firebase.auth().signOut().then(() =>{
-            this.setState({
-                isAuthenticated:false,
-            })
-            console.log('saiu')
-            this.props.navigation.navigate('Login');
-        }).catch(error =>
-            console.log(error.code))
-    }
+    useEffect(() => {
 
-zerarState =()=>{
-    this.state= {
-        marca:'',
-        modelo: '',
-        placa:'',
-        chassi: '',
-        quilometragem: '',
-        cor: '',
-        avarias: '',
-    }
-}
-    getVeiculo = () =>{
-        firebase.database().ref(`veiculo/`).once('value', (data) =>{
+    }, []);
 
-            data.forEach((uid) =>{
-                
-                    this.state.list.push({
-                        marca:uid.val().marca,
-                        modelo: uid.val().modelo,
-                        placa:uid.val().placa,
-                        chassi: uid.val().chassi,
-                        quilometragem: uid.val().quilometragem,
-                        cor: uid.val().cor,
-                        avarias: uid.val().avarias,
-                    })
-                    this.setState({
-                        list : this.state.list
-                    })
-            })
-        })
-    }
     render(){
     return(
         <View style={styles.container}>

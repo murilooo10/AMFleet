@@ -6,9 +6,7 @@ exports.up = function(knex) {
       table.string('sobrenome').notNullable();
       table.string('email').notNullable();
       table.string('password').notNullable();
-
-      
-      
+      table.integer('tipo_de_usuario').notNullable(); 
   })
 };
 

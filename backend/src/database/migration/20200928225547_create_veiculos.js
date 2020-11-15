@@ -15,8 +15,6 @@ exports.up = function(knex) {
         table.string('matricula_usuarioChefe').notNullable();
 
         table.foreign('matricula_usuarioChefe').references('matricula').inTable('usuarios_chefe');
-        //vai colocar km de revisão? Como vai ser feito?
-
   
     })
 };
