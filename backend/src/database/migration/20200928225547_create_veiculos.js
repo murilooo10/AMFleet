@@ -1,7 +1,7 @@
 exports.up = function(knex) {
     return knex.schema.createTable('veiculos', function(table) {
         table.increments();
-        table.string('chassi');
+        table.string('chassi').notNullable();
         table.string('renavam').notNullable();
         table.string('placa').notNullable();
         table.string('cor').notNullable();
@@ -12,9 +12,8 @@ exports.up = function(knex) {
         table.string('tipo_combustivel').notNullable();    
         table.string('avarias').notNullable();    
 
-        table.string('matricula_usuarioChefe').notNullable();
-
-        table.foreign('matricula_usuarioChefe').references('matricula').inTable('usuarios_chefe');
+        table.string('id_usuario').notNullable();
+        table.foreign('id_usuario').references('id').inTable('usuarios');
   
     })
 };

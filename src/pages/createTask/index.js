@@ -367,7 +367,7 @@ export default class CreateTask extends Component {
                       style={styles.title}
                       onChangeText={text => this.setState({ taskText: text })}
                       value={taskText}
-                      placeholder="O que você precisa?"
+                      placeholder="Titulo"
                     />
                     <View style={styles.notesContent} />
                     <View>

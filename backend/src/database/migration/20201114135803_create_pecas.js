@@ -5,11 +5,11 @@ exports.up = function(knex) {
     table.string('nome').notNullable();
     table.integer('quantidade').notNullable();
 
-    table.string('matricula_chefeManutencao').notNullable();
-    table.foreign('matricula_chefeManutencao').references('matricula').inTable('chefe_manutencao');
+    table.string('codigo_perfil').notNullable();
+    table.foreign('codigo_perfil').references('codigo_perfil').inTable('usuarios');
   })
 };
 
 exports.down = function(knex) {
-  
+    return knex.schema.dropTable('pecas');
 };

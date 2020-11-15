@@ -4,13 +4,15 @@ exports.up = function(knex) {
         table.increments();
         table.string('url_foto').notNullable();
 
-        table.string('matricula_motorista').notNullable();
-        table.string('matricula_usuarioChefe').notNullable();
-        table.foreign('matricula_motorista').references('matricula').inTable('motoristas');
-        table.foreign('matricula_usuarioChefe').references('matricula').inTable('usuarios_chefe');
+        table.string('id_usuarios').notNullable();
+        table.string('id_motoristas').notNullable();
+        table.foreign('id_motoristas').references('id').inTable('motoristas');
+        table.foreign('id_usuarios').references('id').inTable('usuarios');
+
     })
 };
 
 exports.down = function(knex) {
+    return knex.schema.dropTable('comprovantes');
   
 };

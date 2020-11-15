@@ -2,7 +2,9 @@ const connection = require('../database/connection');
 
 module.exports = {
     async index(request, response){
-        const comprovantes = await connection('comprovantes').select('*');
+        const comprovantes = await connection('comprovantes')
+        .join('motorista', 'comprovantes.id_motorista', '=', 'motorista.id')
+        .select('comprovantes.url', 'motorista.nome');
 
         return response.json(comprovantes);
 
@@ -14,8 +16,8 @@ module.exports = {
 
         const [id] = await connection('comprovantes').insert({
             url_foto,
-            matricula_motorista,
-            matricula_usuarioChefe
+            id_motorista,
+            id_usuarioChefe
         })
         
         return response.json({ id });

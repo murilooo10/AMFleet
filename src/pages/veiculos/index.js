@@ -26,7 +26,6 @@ export default function Veiculos(){
 
     }, []);
 
-    render(){
     return(
         <View style={styles.container}>
             <View style={styles.header}>
@@ -69,9 +68,9 @@ export default function Veiculos(){
                         />
                         <TextInput
                             style={styles.input}
-                            placeholder="Digite o modelo"
-                            value={this.state.modelo}
-                            onChangeText={modelo=> this.setState({modelo})}
+                            placeholder="Digite o fabricante"
+                            value={this.state.fabricante}
+                            onChangeText={fabricante=> this.setState({fabricante})}
                         />
                         <TextInput
                             style={styles.input}
@@ -96,6 +95,12 @@ export default function Veiculos(){
                             placeholder="Digite as avarias"
                             value={this.state.avarias}
                             onChangeText={avarias=> this.setState({avarias})}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Digite o ano do veículo"
+                            value={this.state.ano}
+                            onChangeText={ano=> this.setState({ano})}
                         />
                         <TextInput
                             style={styles.input}
@@ -139,8 +144,11 @@ export default function Veiculos(){
                         <Text style={styles.vehicleProperty}>Modelo:</Text>
                         <Text style={styles.vehicleValue}>Uno</Text>
                         
-                        <Text style={styles.vehicleProperty}>Marca:</Text>
-                        <Text style={styles.vehicleValue}>Fiat</Text>
+                        <Text style={styles.vehicleProperty}>Fabricante:</Text>
+                        <Text style={styles.vehicleValue}>Fiat</Text>       
+
+                        <Text style={styles.vehicleProperty}>Ano:</Text>
+                        <Text style={styles.vehicleValue}>2018</Text>
 
                         <Text style={styles.vehicleProperty}>Chassi:</Text>
                         <Text style={styles.vehicleValue}>12352346</Text>
@@ -168,5 +176,5 @@ export default function Veiculos(){
                 )}
             />
         </View>
-    )}
+    )
 }

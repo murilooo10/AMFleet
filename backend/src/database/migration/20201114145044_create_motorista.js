@@ -15,10 +15,10 @@ exports.up = function(knex) {
         table.date('data_admissao').notNullable();
         table.string('email').notNullable();
         table.string('password').notNullable();
-        table.integer('tipo_de_usuario').notNullable(); 
+        table.integer('codigo_perfil').notNullable(); 
     })
 };
 
 exports.down = function(knex) {
-  
+    return knex.schema.dropTable('motoristas');
 };

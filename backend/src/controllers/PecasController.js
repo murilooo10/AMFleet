@@ -10,24 +10,22 @@ module.exports = {
 
     async create(request, response){
         const { nome, preco, descricao} = request.body;
-        const matricula_usuarioChefe = request.headers.authorization;
-
-        const [id] = await connection('pecas').insert({
-            nome,
-            //preco,
-            //descricao,
-            //matricula_usuarioChefe,
-            quantidade,
-            matricula_chefeManutencao,
-        })
-        
-        return response.json({ id });
+        const codigo_perfil = request.headers.authorization;
+        if(codigo_perfil = 2){
+            const [id] = await connection('pecas').insert({
+                nome,
+                codigo_perfil,
+                quantidade,
+            })
+            
+            return response.json({ id });
+        }
     },
 
     async delete(request, response){
         const { id } = request.params;
 
-        await connection('pecas').where('id', id).first().delete();
+        await connection('pecas').where('id', id).delete();
 
         return response.status(204).send();
     }
