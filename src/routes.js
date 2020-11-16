@@ -12,6 +12,7 @@ import FotoComprovante from './pages/fotoComprovante';
 import ListaComprovantes from './pages/listaComprovantes';
 import DetailsComprovantes from './pages/detailsComprovantes';
 import Pecas from './pages/pecas';
+import Analises from './pages/analises';
 import DetailsPecas from './pages/detailsPecas';
 import DetailsMotorista from './pages/detailsMotorista';
 import DetailsVeiculos from './pages/detailsVeiculos';
@@ -40,6 +41,7 @@ export default function Routes(){
                 <AppStack.Screen name="ListaComprovantes" component={ListaComprovantes} />
                 <AppStack.Screen name="DetailsComprovantes" component={DetailsComprovantes} />
                 <AppStack.Screen name="Pecas" component={Pecas} />
+                <AppStack.Screen name="Analises" component={Analises} />
                 <AppStack.Screen name="DetailsPecas" component={DetailsPecas} />
                 <AppStack.Screen name="Agendamento" component={Agendamento} />
                 <AppStack.Screen name="CreateTask" component={CreateTask} />
