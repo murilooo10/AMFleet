@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { useState, useEffect } from 'react';
 import {View, FlatList, Alert, Image, Modal, Text, TouchableOpacity} from 'react-native';
 import firebase from 'firebase';
 import logoImg from '../../assets/logo.png';
@@ -7,45 +7,61 @@ import { Searchbar} from 'react-native-paper';
 import {FontAwesome, AntDesign} from '@expo/vector-icons';
 import {TouchableRipple} from 'react-native-paper';
 import { TextInput } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
+import api from '../../services/api';
 
 
-export default class Pecas extends Component{
+export default function Pecas(){
+    const[pecas, setPecas] = useState([]);
+    const [page, setPage] = useState(1);
+    const [total, setTotal] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [nome, setNome] = useState('');
+    const [quantidade, setQuantidade] = useState('');
+    const navigation = useNavigation();
 
-    state = {
-        list:[],
-        modalVisible:false,
-    };
-
-
-    componentDidMount = () => {
-        firebase.auth().onAuthStateChanged(function(user){
-            
-            if(user){
-                this.setState({
-                    isAuthenticated: true,
-                })
-                this.getMotorista();
-
-            }
-            else{
-                this.setState({
-                    isAuthenticated: false,
-                })
-                this.navigateToLogin();
-
-            }
-        }.bind(this)
-        );
+    function navigateToLogin(){
+        navigation.navigate('Login');
     }
 
-    navigateToLogin = () =>{
-        this.props.navigation.navigate('Login');
+    function navigateToDetailsPecas(pecas){
+        navigation.navigate('DetailsPecas', {pecas});
     }
 
-    navigateToDetailsPecas = () =>{
-        this.props.navigation.navigate('DetailsPecas');
+    async function loadPecas(){
+        if(loading){
+            return;
+        }
+
+        if(total > 0 && pecas.length == total){
+            return;
+        }
+
+        
+        setLoading(true);
+
+        const response = await api.get('pecas', {
+            params: {page}
+        });
+
+        setPecas([ ...pecas, ...response.data]);
+        setTotal(response.headers['x-total-count']);
+        setPage(page + 1);
+        setLoading(false);
     }
-    render(){
+
+    function handleNomeChange(nome){ setNome(nome); }
+    function handleQuantidadeChange(quantidade){ setQuantidade(quantidade); }
+
+    async function cadastrarPecas(){
+        api.post('pecas', {nome, quantidade});
+    }
+
+    useEffect(() => {
+        loadPecas();
+    }, []);
+
     return(
         <View style={styles.container} >
             <View style={styles.header}>
@@ -60,22 +76,22 @@ export default class Pecas extends Component{
                 </TouchableRipple>
             </View>
 
-            <Text style={styles.description}>Peças</Text>
-            <Searchbar placeholder="Escreva aqui..." style={styles.search} editable={true} value={this.state.search} ></Searchbar>
+            {/* <Text style={styles.description}>Peças</Text>
+            <Searchbar placeholder="Escreva aqui..." style={styles.search} editable={true} value={this.state.search} ></Searchbar> */}
 
             <Modal
             animationType='slide'
             transparent={true}
-            visible={this.state.modalVisible}
+            visible={modalVisible}
             onRequestClose={() => {
-              Alert.alert("Modal has been closed.");
+              Alert.alert("Modal fechou!");
             }}>
                 <View style={styles.modalView}>
                     <TouchableRipple
                         style={styles.alinharClose}
                         rippleColor="#E9EEF3"
                         onPress={() => {
-                            this.setState({modalVisible:false})
+                            setModalVisible(!modalVisible);
                         }}
                         >
                         <AntDesign name="close" size={20} color="#D3D3D3" />
@@ -86,22 +102,20 @@ export default class Pecas extends Component{
                         <TextInput
                             style={styles.input}
                             placeholder="Qual o nome da Peça?"
-                            //value={this.state.peca}
-                            //onChangeText={nome=> this.setState({nome})}
+                            onChangeText={handleNomeChange}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Quantas peças estão no estoque?"
-                            //value={this.state.sobrenome}
-                            //onChangeText={sobrenome=> this.setState({sobrenome})}
+                            onChangeText={handleQuantidadeChange}
                         />
-                        <View style={styles.errorMessage}>
+                        {/* <View style={styles.errorMessage}>
                             {this.state.errorMessage && <Text style={styles.wrongText}>{this.state.errorMessage}</Text>}
-                        </View>
+                        </View> */}
                         <TouchableRipple 
                             style={styles.button}
                             rippleColor="#E9EEF3"
-                            onPress={this.cadastrarMotorista}
+                            onPress={cadastrarPecas}
                         >
                             <View>
                             <Text style={styles.textStyle}>Cadastrar</Text>
@@ -114,7 +128,7 @@ export default class Pecas extends Component{
                 style={styles.detailsButtonAdd} 
                 rippleColor="#E9EEF3"
                 onPress={() => {
-                this.setState({modalVisible: true});
+                    setModalVisible(true);
                 }}
             >  
                 <Text style={{color:'#FFF', fontWeight:'bold'}}>Adicionar Peças</Text>
@@ -122,23 +136,22 @@ export default class Pecas extends Component{
 
             <FlatList
                 style={styles.listaPecas}
-                //data={this.state.list}
-                data={[1,2,3]}
-                //keyExtractor={(list, index) => String(index)}
-                keyExtractor={(incidents) => String(incidents)}
+                data={pecas}
+                keyExtractor={(pecas) => String(pecas.id)}
                 showsVerticalScrollIndicator ={false}
-                //renderItem={({item: list}) => (
-                renderItem={() => (
+                onEndReached={loadPecas}
+                onEndReachedThreshold={0.2}
+                renderItem={({item: pecas}) => (
                     <View style={styles.pecas}>
                         <Text style={styles.pecasProperty}>Peça:</Text>
-                        <Text style={styles.pecasValue}>Bateria</Text>
+                            <Text style={styles.pecasValue}>{pecas.nome}</Text>
 
                         <Text style={styles.pecasProperty}>Quantidade:</Text>
-                        <Text style={styles.pecasValue}>12</Text>
+                        <Text style={styles.pecasValue}>{pecas.quantidade}</Text>
 
                         <TouchableOpacity 
                             style={styles.detailsButton} 
-                            onPress={this.navigateToDetailsPecas}
+                            onPress={navigateToDetailsPecas}
                         >
                             <Text style={styles.detailsButtonText}>Ver detalhes</Text>
                             <AntDesign name="right" size={24} color="#4f8cff" />
@@ -147,5 +160,5 @@ export default class Pecas extends Component{
                 )}
             />
         </View>
-    )}
+    )
 }

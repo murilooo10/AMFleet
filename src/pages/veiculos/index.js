@@ -14,21 +14,62 @@ import { useNavigation } from '@react-navigation/native';
 export default function Veiculos(){
     const[veiculos, setVeiculos] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
+    const [page, setPage] = useState(1);
+    const [total, setTotal] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [modelo, setModelo] = useState('');
+    const [fabricante, setFabricante] = useState('');
+    const [placa, setPlaca] = useState('');
+    const [chassi, setChassi] = useState('');
+    const [cor, setCor] = useState('');
+    const [avarias, setAvarias] = useState('');
+    const [ano, setAno] = useState('');
+    const [renavam, setRenavam] = useState('');
+    const [quilometragem, setQuilometragem] = useState('');
     const navigation = useNavigation();
 
 
     function navigateToLogin(){
         navigation.navigate('Login');
     }
-    function navigateToDetailsVeiculos(){
-        navigation.navigate('DetailsVeiculos');
+    function navigateToDetailsVeiculos(veiculos){
+        navigation.navigate('DetailsVeiculos', {veiculos});
     }
 
     async function loadVeiculos(){
-        const response = await api.get('veiculos');
+        if(loading){
+            return;
+        }
 
-        setVeiculos(response.data);
+        if(total > 0 && veiculos.length == total){
+            return;
+        }
+
+        setLoading(true);
+
+        const response = await api.get('veiculos', {
+            params: {page}
+        });
+
+        setVeiculos([ ...veiculos, ...response.data]);
+        setTotal(response.headers['x-total-count']);
+        setPage(page + 1);
+        setLoading(false);
     }
+
+    async function cadastrarVeiculo(){
+        api.post('veiculos', {modelo, fabricante, placa, chassi, cor, renavam, avarias, ano, quilometragem});
+    }
+
+    function handleModeloChange(modelo){ setModelo(modelo); }
+    function handleFabricanteChange(fabricante){ setFabricante(fabricante); }
+    function handlePlacaChange(placa){ setPlaca(placa); }
+    function handleChassihange(chassi){ setChassi(chassi); }
+    function handleRenavamhange(renavam){ setRenavam(renavam); }
+    function handleCorhange(cor){ setCor(cor); }
+    function handleAvariasChange(avarias){ setAvarias(avarias); }
+    function handleAnoChange(ano){ setAno(ano); }
+    function handleQuilometragemChange(quilometragem){ setQuilometragem(quilometragem); }
 
     useEffect(() => {
         loadVeiculos();
@@ -70,51 +111,48 @@ export default function Veiculos(){
                     </View>
                         <TextInput
                             style={styles.input}
-                            placeholder="Digite a marca"
-                            //value={this.state.marca}
-                            onChangeText={marca=> this.setState({marca})}
+                            placeholder="Digite o modelo"
+                            onChangeText={handleModeloChange}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Digite o fabricante"
-                            //value={this.state.fabricante}
-                            onChangeText={fabricante=> this.setState({fabricante})}
+                            onChangeText={handleFabricanteChange}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Digite a placa"
-                            //value={this.state.placa}
-                            onChangeText={placa=> this.setState({placa})}
+                            onChangeText={handlePlacaChange}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Digite o chassi"
-                            //value={this.state.chassi}
-                            onChangeText={chassi=> this.setState({chassi})}
+                            onChangeText={handleChassihange}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Digite o renavam"
+                            onChangeText={handleRenavamhange}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Digite a cor"
-                            //value={this.state.cor}
-                            onChangeText={cor=> this.setState({cor})}
+                            onChangeText={handleCorhange}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Digite as avarias"
-                            //value={this.state.avarias}
-                            onChangeText={avarias=> this.setState({avarias})}
+                            onChangeText={handleAvariasChange}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Digite o ano do veículo"
-                            //value={this.state.ano}
-                            onChangeText={ano=> this.setState({ano})}
+                            onChangeText={handleAnoChange}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Digite a quilometragem"
-                            //value={this.state.quilometragem}
-                            onChangeText={quilometragem=> this.setState({quilometragem})}
+                            onChangeText={handleQuilometragemChange}
                         />
                         {/* <View style={styles.errorMessage}>
                             {this.state.errorMessage && <Text style={styles.wrongText}>{this.state.errorMessage}</Text>}
@@ -122,7 +160,7 @@ export default function Veiculos(){
                         <TouchableRipple 
                             style={styles.button}
                             rippleColor="#E9EEF3"
-                            //onPress={this.cadastrarVeiculo}
+                            onPress={cadastrarVeiculo}
                         >
                             <View>
                             <Text style={styles.textStyle}>Cadastrar</Text>
@@ -147,6 +185,8 @@ export default function Veiculos(){
                 data={veiculos}
                 keyExtractor={veiculos => String(veiculos.id)}
                 showsVerticalScrollIndicator ={false}
+                onEndReached={loadVeiculos}
+                onEndReachedThreshold={0.2}
                 renderItem={({item: veiculos}) => (
                     <View style={styles.vehicle}>
                         <Text style={styles.vehicleProperty}>Modelo:</Text>
@@ -175,7 +215,7 @@ export default function Veiculos(){
 
                         <TouchableOpacity 
                             style={styles.detailsButton} 
-                            onPress={navigateToDetailsVeiculos}
+                            onPress={() => navigateToDetailsVeiculos(veiculos)}
                         >
                             <Text style={styles.detailsButtonText}>Ver detalhes</Text>
                             <AntDesign name="right" size={24} color="#4f8cff" />

@@ -5,7 +5,7 @@ exports.up = function(knex) {
     table.string('nome').notNullable();
     table.string('quantidade').notNullable();
 
-    table.integer('codigo_perfil').notNullable();
+    table.integer('codigo_perfil');
     table.foreign('codigo_perfil').references('codigo_perfil').inTable('usuarios');
   })
 };

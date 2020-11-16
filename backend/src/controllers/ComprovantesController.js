@@ -2,9 +2,14 @@ const connection = require('../database/connection');
 
 module.exports = {
     async index(request, response){
+        const{page = 1} = request.query;
+        const [count] = await connection('comprovantes').count();
         const comprovantes = await connection('comprovantes')
-        .join('motorista', 'comprovantes.id_motorista', '=', 'motorista.id')
-        .select('comprovantes.url', 'motorista.nome');
+        .limit(5)
+        .offset((page - 1) * 5)
+        .select('*');
+
+        response.header('X-Total-Count', count['count(*)']);
 
         return response.json(comprovantes);
 
@@ -19,8 +24,6 @@ module.exports = {
         const [id] = await connection('comprovantes').insert({
             url_foto,
             nome,
-            id_motorista,
-            codigo_perfil,
         })
         
         return response.json({ id });

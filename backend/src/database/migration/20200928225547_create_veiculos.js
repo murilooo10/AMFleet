@@ -11,8 +11,8 @@ exports.up = function(knex) {
         table.string('quilometragem').notNullable();
         table.string('avarias').notNullable();    
 
-        table.integer('codigo_perfil');
-        table.foreign('codigo_perfil').references('codigo_perfil').inTable('usuarios');
+        //table.integer('codigo_perfil');
+        //table.foreign('codigo_perfil').references('codigo_perfil').inTable('usuarios');
   
     })
 };

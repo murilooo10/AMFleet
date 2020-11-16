@@ -5,8 +5,15 @@ const app = require('express');
 module.exports = {
 
     async index(request, response){
-        const motoristas = await connection('motoristas').select('*');
     
+        const{page = 1} = request.query;
+        const [count] = await connection('motoristas').count();
+        const motoristas = await connection('motoristas')
+        .limit(5)
+        .offset((page - 1) * 5)
+        .select('*');
+
+        response.header('X-Total-Count', count['count(*)']);
         return response.json(motoristas);
     },
 

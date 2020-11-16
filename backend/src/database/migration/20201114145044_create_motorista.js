@@ -14,7 +14,7 @@ exports.up = function(knex) {
         table.string('valor_venda');
         table.string('email').notNullable();
         table.string('password').notNullable();
-        table.integer('codigo_perfil').notNullable(); 
+        table.integer('codigo_perfil'); 
 
         table.timestamps();
     })
