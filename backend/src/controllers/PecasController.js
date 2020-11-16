@@ -32,5 +32,15 @@ module.exports = {
         await connection('pecas').where('id', id).first().delete();
 
         return response.status(204).send();
+    },
+
+    async update(request, response){
+        const{quantidade, id} = request.params;
+
+        await connection('pecas').where('id', id).update({
+            quantidade
+        })
+
+        return response.json({ id });
     }
 }

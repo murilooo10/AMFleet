@@ -48,7 +48,7 @@ module.exports = {
             })
 
     
-            return response.json({ id})
+            return response.json({ id});
         }catch{
             return response.status(401).send();
         }
@@ -61,5 +61,15 @@ module.exports = {
         await connection('usuarios').where('id_motorista', id).first().delete();
 
         return response.status(204).send();
+    },
+
+    async update(request, response){
+        const{valor_venda, id} = request.params;
+
+        await connection('motoristas').where('id', id).update({
+            valor_venda
+        })
+
+        return response.json({ id});
     }
 }

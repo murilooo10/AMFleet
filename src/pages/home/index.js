@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { MaterialCommunityIcons, Fontisto, FontAwesome5, FontAwesome, AntDesign } from '@expo/vector-icons'; 
-import {View, Image, Text, FlatList} from 'react-native';
+import {View, Image, Text, Alert} from 'react-native';
 import {TouchableRipple} from 'react-native-paper';
 import logoImg from '../../assets/logoFundoColorido.png';
 import styles from './styles';
@@ -116,9 +116,15 @@ export default class Home extends Component{
         firebase.auth().signOut()
             .then(function() {
             // Sign-out successful.
+            this.state = {
+                isAuthenticated: false,
+                nome: '',
+                tipoDeUsuario: '',
+            };
+                
             })
         .catch(function(error) {
-            // Ocorreu um erro
+            Alert.alert('Não saiu da sessão!');
         });
     }
 

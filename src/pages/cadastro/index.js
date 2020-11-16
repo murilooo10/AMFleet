@@ -7,7 +7,7 @@ import styles from './styles';
 import firebase from 'firebase';
 import logoImg from '../../assets/logoGrande.png';
 import md5 from 'md5';
-
+import {Picker} from '@react-native-picker/picker';
 
 
 export default class Cadastro extends Component{
@@ -20,6 +20,7 @@ export default class Cadastro extends Component{
             sobrenome: '',
             email: '',
             senha: '',
+            perfil:'Usuário Chefe',
             confirmarSenha: '',
             errorMessage: null,
         }; 
@@ -28,7 +29,7 @@ export default class Cadastro extends Component{
             this.checkIfSignUp();
         }
 
-        this.navigatoToLogin = this.navigatoToLogin.bind(this);
+        this.navigateToLogin = this.navigateToLogin.bind(this);
         this.cadastro = this.cadastro.bind(this);
 
     }
@@ -39,11 +40,22 @@ export default class Cadastro extends Component{
         firebase.auth().onAuthStateChanged(function(user){
 
             if(user){
+                if(this.state.perfil == "Usuário Chefe"){
+                    this.state ={
+                        perfil: 1
+                    }
+                }else{
+                    if(this.state.perfil == "Chefe Manutenção"){
+                        this.state ={
+                            perfil: 1
+                        }
+                    }
+                }
                 firebase.database().ref('usuario').child(user.uid).set({
                     matricula: this.state.matricula,
                     nome: this.state.nome,
                     sobrenome: this.state.sobrenome,
-                    tipoDeUsuario: 1,
+                    codigo_perfil: this.state.perfil,
                     email: this.state.email,
                     password: md5(this.state.password)
                 })
@@ -57,8 +69,8 @@ export default class Cadastro extends Component{
     cadastro = () =>{
 
         try{
-            const {email, password, confirmarSenha, matricula, nome} = this.state;
-            if(matricula != null && email != null && password != null && confirmarSenha != null && nome!=null){
+            const {email, perfil, password, confirmarSenha, matricula, nome} = this.state;
+            if(matricula != null && perfil != null && email != null && password != null && confirmarSenha != null && nome!=null){
                 if(password != confirmarSenha){
                     this.setState({errorMessage: "'Confirmar Senha' diferente de 'Senha'"}); 
                 }else{
@@ -78,13 +90,14 @@ export default class Cadastro extends Component{
         }
     }
 
-    navigatoToLogin(){
+    navigateToLogin = () =>{
         this.props.navigation.navigate('Login');
     }
     
 
 
     render(){
+        const [selectedValue, setSelectedValue] = useState(null);
         return(
             <View style={styles.container}>
                 <View style={styles.header}>
@@ -119,6 +132,17 @@ export default class Cadastro extends Component{
                         value={this.state.email}
                         onChangeText={email=> this.setState({email})}
                     />
+
+                    <Picker
+                    selectedValue={this.state.perfil}
+                    style={styles.input}
+                    onValueChange={(itemValue, itemIndex) =>
+                        this.setState({perfil: itemValue})
+                    }>
+                    <Picker.Item label="Usuário Chefe" value="Usuário Chefe" />
+                    <Picker.Item label="Chefe Manutenção" value="Chefe Manutenção" />
+                    </Picker>
+
 
                     <TextInput
                         style={styles.input}

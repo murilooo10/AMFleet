@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Feather} from '@expo/vector-icons';
 import {View, FlatList, Alert, Image, Modal, Text, TouchableOpacity} from 'react-native';
 import firebase from 'firebase';
@@ -8,8 +8,10 @@ import {FontAwesome, AntDesign} from '@expo/vector-icons';
 import {TouchableRipple} from 'react-native-paper';
 import logoImg from '../../assets/logo.png';
 import styles from './styles';
+import api from '../../services/api';
 
 export default function Veiculos(){
+    const[veiculos, setVeiculos] = useState([]);
 
     navigateToLogin = () =>{
         this.props.navigation.navigate('Login');
@@ -18,12 +20,14 @@ export default function Veiculos(){
         this.props.navigation.navigate('DetailsVeiculos');
     }
 
-    async function LoadVeiculos(){
-        
+    async function loadVeiculos(){
+        const response = await api.get('veiculos');
+
+        setVeiculos(response.data);
     }
 
     useEffect(() => {
-
+        loadVeiculos();
     }, []);
 
     return(

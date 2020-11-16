@@ -34,5 +34,16 @@ module.exports = {
         await connection('veiculos').where('id', id).first().delete();
 
         return response.status(204).send();
+    },
+
+    async update(request, response){
+        const{quilometragem, avarias, id} = request.params;
+
+        await connection('veiculos').where('id', id).update({
+            quilometragem,
+            avarias
+        })
+
+        return response.json({ id });
     }
 }
