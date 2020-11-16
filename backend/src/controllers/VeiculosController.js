@@ -9,8 +9,8 @@ module.exports = {
     },
 
     async create(request, response){
-        const { chassi, renavam, placa, ano, cor, fabricante, modelo, quilometragem, tipo_combustivel, avarias} = request.body;
-        const matricula_usuarioChefe = request.headers.authorization;
+        const { chassi, renavam, placa, ano, cor, fabricante, modelo, quilometragem, avarias} = request.body;
+        const codigo_perfil = request.headers.authorization;
 
         const [id] = await connection('veiculos').insert({
             chassi,
@@ -21,9 +21,8 @@ module.exports = {
             fabricante,
             modelo,
             quilometragem,
-            tipo_combustivel,
             avarias,
-            matricula_usuarioChefe
+            codigo_perfil
         })
         
         return response.json({ id });

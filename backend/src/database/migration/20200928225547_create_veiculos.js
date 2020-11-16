@@ -5,15 +5,14 @@ exports.up = function(knex) {
         table.string('renavam').notNullable();
         table.string('placa').notNullable();
         table.string('cor').notNullable();
-        table.integer('ano').notNullable();
+        table.string('ano').notNullable();
         table.string('fabricante').notNullable();
         table.string('modelo').notNullable();
-        table.integer('quilometragem').notNullable();
-        table.string('tipo_combustivel').notNullable();    
+        table.string('quilometragem').notNullable();
         table.string('avarias').notNullable();    
 
-        table.string('id_usuario').notNullable();
-        table.foreign('id_usuario').references('id').inTable('usuarios');
+        table.integer('codigo_perfil');
+        table.foreign('codigo_perfil').references('codigo_perfil').inTable('usuarios');
   
     })
 };

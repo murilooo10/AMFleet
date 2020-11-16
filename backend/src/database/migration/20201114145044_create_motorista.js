@@ -5,17 +5,18 @@ exports.up = function(knex) {
         table.string('matricula').notNullable();
         table.string('nome').notNullable();
         table.string('sobrenome').notNullable();
-        table.integer('idade').notNullable();
+        table.string('idade').notNullable();
         table.string('sexo').notNullable();
-        table.integer('rg').notNullable();
-        table.integer('cpf').notNullable();
-        table.integer('cnh').notNullable();
-        table.integer('carteira_trabalho').notNullable();
-        table.integer('valor_venda');
-        table.date('data_admissao').notNullable();
+        table.string('rg').notNullable();
+        table.string('cpf').notNullable();
+        table.string('cnh').notNullable();
+        table.string('carteira_trabalho').notNullable();
+        table.string('valor_venda');
         table.string('email').notNullable();
         table.string('password').notNullable();
         table.integer('codigo_perfil').notNullable(); 
+
+        table.timestamps();
     })
 };
 

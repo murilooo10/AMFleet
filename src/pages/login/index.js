@@ -3,60 +3,21 @@ import {View, Image, Text, TouchableOpacity} from 'react-native';
 import {TouchableRipple} from 'react-native-paper';
 import { TextInput } from 'react-native-gesture-handler';
 import styles from './styles';
-import firebase from 'firebase';
 import logoImg from '../../assets/logoGrande.png';
+import {useNavigation} from '@react-navigation/native';
 
 
 
+export default function Login(){
+    const navigation = useNavigation();
 
-export default class Login extends Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            email: '',
-            password:'',
-            isAuthenticated: false,
-            errorMessage: null,
-        }; 
-
-        firebase.auth().onAuthStateChanged(function(user){
-
-            if(user){
-                this.setState({
-                    isAuthenticated: true,
-                })
-                console.log(user)
-                this.navigateToHome();
-
-            }
-            else{
-                this.props.navigation.navigate('Login')
-            }
-        }.bind(this)
-        );
-
-}
-    handleLogin = async() =>{
-
-        try{
-            const {email, password} = this.state;
-            await firebase.auth()
-                .signInWithEmailAndPassword(email, password).catch(error => {this.setState({errorMessage : error.message})});
-
-        }catch (err){
-            console.log(err);
-        }
+    function navigateToHome() {
+        navigation.navigate('Home');
+    }
+    function navigatoToCadastro(){
+        navigation.navigate('Cadastro');
     }
 
-    navigateToHome = () => {
-        this.props.navigation.navigate('Home');
-    }
-    navigatoToCadastro = () =>{
-        this.props.navigation.navigate('Cadastro');
-    }
-
-
-    render(){
         return(
             <View style={styles.container}>
                 <View style={styles.header}>
@@ -100,5 +61,4 @@ export default class Login extends Component{
                 </View>
             </View> 
         )
-    }
 } 

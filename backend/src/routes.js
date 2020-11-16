@@ -2,10 +2,13 @@ const express = require('express');
 const routes = express.Router();
 
 
-const UsuarioChefeController = require('./controllers/UsuarioChefeController');
+const PecasController = require('./controllers/PecasController');
 const VeiculosController = require('./controllers/VeiculosController');
 const SessionController = require('./controllers/SessionController');
 const UsuariosController = require('./controllers/UsuariosController');
+const MotoristaController = require('./controllers/MotoristaController');
+const ComprovantesController = require('./controllers/ComprovantesController');
+const AgendamentoController = require('./controllers/AgendamentoController');
 
 routes.post('/sessions', SessionController.create)
 
@@ -17,10 +20,21 @@ routes.get('/usuarios', UsuariosController.index);
 routes.post('/usuarios', UsuariosController.create);
 routes.delete('/usuarios/:id', UsuariosController.delete);
 
-routes.get('/motoristas', UsuariosController.index);
-routes.post('/motoristas', UsuariosController.create);
-routes.delete('/motoristas/:id', UsuariosController.delete);
+routes.get('/motoristas', MotoristaController.index );
+routes.post('/motoristas', MotoristaController.create);
+routes.delete('/motoristas/:id', MotoristaController.delete);
 
+routes.get('/comprovantes', ComprovantesController.index);
+routes.post('/comprovantes', ComprovantesController.create);
+routes.delete('/comprovantes/:id', ComprovantesController.delete);
+
+routes.get('/pecas', PecasController.index);
+routes.post('/pecas', PecasController.create);
+routes.delete('/pecas/:id', PecasController.delete);
+
+routes.get('/agendamento', AgendamentoController.index);
+routes.post('/agendamento', AgendamentoController.create);
+routes.delete('/agendamento/:id', AgendamentoController.delete);
 
 
 

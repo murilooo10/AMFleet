@@ -1,5 +1,6 @@
 const connection = require('../database/connection');
-const crypto = require('crypto');
+const bcrypt = require('bcrypt');
+const app = require('express');
 
 module.exports = {
 
@@ -10,28 +11,44 @@ module.exports = {
     },
 
     async create(request, response){
-        try{
-            const { matricula,  nome, sobrenome, tipo_de_usuario, cpf, cnh, idade, data_admissao, sexo, valor_venda, email, password, carteira_trabalho} = request.body;
 
-            crypto.createHash('md5').update(password).digest("hex");
-    
-            await connection('perfil').insert({
+        try{
+            const { matricula,  nome, sobrenome, cpf, cnh, rg, idade, sexo, valor_venda, email, password, carteira_trabalho} = request.body;
+
+            //crypto.createHash('md5').update(password).digest("hex");
+            const salt = await bcrypt.genSalt();
+            const hashedPassword = await bcrypt.hash(password, salt); 
+
+            const data = new Date(Date.now()).toLocaleDateString();
+            const [id] = await connection('motoristas').insert({
                     matricula, 
                     nome,
                     sobrenome,
-                    tipo_de_usuario,
+                    idade,
+                    sexo,
+                    rg,
                     cpf,
                     cnh,
-                    idade,
-                    data_admissao,
-                    sexo,
+                    carteira_trabalho,
                     valor_venda,
                     email,
-                    password,
-                    carteira_trabalho,
+                    password: hashedPassword,
+                    codigo_perfil: 3,
+                    created_at: data,
+                    updated_at: data,
             })
+            await connection('usuarios').insert({
+                matricula, 
+                nome,
+                sobrenome,
+                email,
+                password: hashedPassword,
+                codigo_perfil: 3,
+                id_motorista:id
+            })
+
     
-            return response.json({ matrícula })
+            return response.json({ id})
         }catch{
             return response.status(401).send();
         }
@@ -39,8 +56,9 @@ module.exports = {
 
     async delete(request, response){
         const { id } = request.params;
-
         await connection('motoristas').where('id', id).first().delete();
+
+        await connection('usuarios').where('id_motorista', id).first().delete();
 
         return response.status(204).send();
     }

@@ -9,49 +9,48 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
 export default class Home extends Component{
-//     constructor(props){
-//         super(props)
-//         this.state = {
-//             isAuthenticated: false,
-//             nome: '',
-//             tipoDeUsuario: '',
-//         };
-//         this.singOutAccount = this.singOutAccount.bind(this);
-//         this.componentDidMount = this.componentDidMount.bind(this);
+    constructor(props){
+        super(props)
+        this.state = {
+            isAuthenticated: false,
+            nome: '',
+            tipoDeUsuario: '',
+        };
+        this.singOutAccount = this.singOutAccount.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
 
-//         const navigation = useNavigation();
+}
+    componentDidMount = () => {
+        firebase.auth().onAuthStateChanged(function(user){
 
-// }
-//     componentDidMount = () => {
-//         firebase.auth().onAuthStateChanged(function(user){
+            if(user){
+                this.setState({
+                    isAuthenticated: true,
+                })
+                console.log(user);
+                this.getInformation();
 
-//             if(user){
-//                 this.setState({
-//                     isAuthenticated: true,
-//                 })
-//                 this.getInformation();
+            }
+            else{
+                this.setState({
+                    isAuthenticated: false,
+                })
+                this.navigateToLogin();
 
-//             }
-//             else{
-//                 this.setState({
-//                     isAuthenticated: false,
-//                 })
-//                 this.navigateToLogin();
-
-//             }
-//         }.bind(this)
-//         );
-//     }
-//     singOutAccount = () =>{
-//         firebase.auth().signOut().then(() =>{
-//             this.setState({
-//                 isAuthenticated:false,
-//             })
-//             console.log('saiu')
-//             this.props.navigation.navigate('Login');
-//         }).catch(error =>
-//             console.log(error.code))
-//     }
+            }
+        }.bind(this)
+        );
+    }
+    singOutAccount = () =>{
+        firebase.auth().signOut().then(() =>{
+            this.setState({
+                isAuthenticated:false,
+            })
+            console.log('saiu')
+            this.props.navigation.navigate('Login');
+        }).catch(error =>
+            console.log(error.code))
+    }
 
 //     getInformation = () =>{
 //         var uid = firebase.auth().currentUser.uid;
@@ -118,7 +117,7 @@ export default class Home extends Component{
                 <Image source={logoImg}/>
                 <TouchableRipple 
                     rippleColor="#E9EEF3"
-                    onPress={()=>{}}
+                    onPress={this.singOutAccount}
                 >
 
                     <FontAwesome name="power-off" size={24} color="red" />

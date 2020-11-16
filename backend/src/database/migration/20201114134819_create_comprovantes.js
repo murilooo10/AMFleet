@@ -4,8 +4,8 @@ exports.up = function(knex) {
         table.increments();
         table.string('url_foto').notNullable();
 
-        table.string('id_usuarios').notNullable();
-        table.string('id_motoristas').notNullable();
+        table.integer('id_usuarios');
+        table.integer('id_motoristas');
         table.foreign('id_motoristas').references('id').inTable('motoristas');
         table.foreign('id_usuarios').references('id').inTable('usuarios');
 

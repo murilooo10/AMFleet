@@ -9,17 +9,17 @@ module.exports = {
     },
 
     async create(request, response){
-        const { data, hora, matricula_motorista, status, id_pecas, id_veiculo} = request.body;
-        const matricula_usuarioChefe = request.headers.authorization;
+        const { data, hora, titulo, descricao, id_pecas, id_veiculo} = request.body;
+        const codigo_perfil = request.headers.authorization;
 
         const [id] = await connection('agendamento').insert({
+            titulo,
             data,
             hora,
-            //id_motorista,
-            status,
+            descricao,
             id_pecas,
             id_veiculo,
-            matricula_usuarioChefe
+            codigo_perfil,
         })
         
         return response.json({ id });
@@ -28,7 +28,7 @@ module.exports = {
     async delete(request, response){
         const { id } = request.params;
 
-        await connection('agendamento').where('id', id).first().delete();
+        await connection('agendamento').where('id', id).delete();
 
         return response.status(204).send();
     }

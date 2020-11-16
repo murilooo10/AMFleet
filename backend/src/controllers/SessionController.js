@@ -14,5 +14,11 @@ module.exports = {
             .where('id', id)
             .select('email', 'password')
             //.first();
+
+            if(!usuarios || !motoristas){
+                return response.status(400).json( {error: 'Este usuário não existe!'});
+            }
+
+        return response.json({usuarios, motoristas});
     }
 }

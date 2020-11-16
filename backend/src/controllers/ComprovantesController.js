@@ -11,13 +11,16 @@ module.exports = {
     },
 
     async create(request, response){
-        const { url_foto, matricula_motorista} = request.body;
-        const matricula_usuarioChefe = request.headers.authorization;
+        const { url_foto} = request.body;
+        const codigo_perfil = response.headers.authorization;
+
+        const id_motorista = await connection('usuarios').where('codigo_perfil', 3).select('id');
 
         const [id] = await connection('comprovantes').insert({
             url_foto,
+            nome,
             id_motorista,
-            id_usuarioChefe
+            codigo_perfil,
         })
         
         return response.json({ id });
