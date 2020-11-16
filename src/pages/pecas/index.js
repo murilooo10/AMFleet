@@ -151,7 +151,7 @@ export default function Pecas(){
 
                         <TouchableOpacity 
                             style={styles.detailsButton} 
-                            onPress={navigateToDetailsPecas}
+                            onPress={() => navigateToDetailsPecas(pecas)}
                         >
                             <Text style={styles.detailsButtonText}>Ver detalhes</Text>
                             <AntDesign name="right" size={24} color="#4f8cff" />

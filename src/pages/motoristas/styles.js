@@ -113,7 +113,7 @@ export default StyleSheet.create({
         elevation: 5
       },
       input: {
-        height: 50,
+        height: 40,
         backgroundColor:'#fff',
         borderRadius: 8,
         alignSelf: 'stretch',

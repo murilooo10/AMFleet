@@ -40,7 +40,6 @@ module.exports = {
                     valor_venda,
                     email,
                     password: hashedPassword,
-                    codigo_perfil: 3,
                     created_at: data,
                     updated_at: data,
             })

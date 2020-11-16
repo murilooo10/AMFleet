@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { useState, useEffect } from 'react';
 import {Feather} from '@expo/vector-icons';
 import {View, FlatList, Alert, Image, Modal, Text, TouchableOpacity} from 'react-native';
 import firebase from 'firebase';
@@ -8,136 +8,92 @@ import { TextInput } from 'react-native-gesture-handler';
 import { Searchbar} from 'react-native-paper';
 import {FontAwesome, AntDesign} from '@expo/vector-icons';
 import {TouchableRipple} from 'react-native-paper';
-import DatePicker from 'react-native-datepicker';
+import api from '../../services/api';
+import {useNavigation} from '@react-navigation/native';
 
 
-export default class Motorista extends Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            isAuthenticated: false,
-            nome: '',
-            tipoDeUsuario: '',
-            dataAdmissao:'',
-            modalVisible: false,
-            errorMessage: null,
-            list:[],
-        };
-        this.singOutAccount = this.singOutAccount.bind(this);
-}
-    componentDidMount = () => {
-        firebase.auth().onAuthStateChanged(function(user){
-            
-            if(user){
-                this.setState({
-                    isAuthenticated: true,
-                })
-                this.getMotorista();
+export default function Motoristas(){
 
-            }
-            else{
-                this.setState({
-                    isAuthenticated: false,
-                })
-                this.navigateToLogin();
+    const[motoristas, setMotoristas] = useState([]);
+    const [page, setPage] = useState(1);
+    const [total, setTotal] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [matricula, setMatricula] = useState('');
+    const [nome, setNome] = useState('');
+    const [sobrenome, setSobrenome] = useState('');
+    const [idade, setIdade] = useState('');
+    const [sexo, setSexo] = useState('');
+    const [rg, setRg] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [cnh, setCnh] = useState('');
+    const [carteira_trabalho, setCarteira_trabalho] = useState('');
+    const [valor_venda, setValor_venda] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-            }
-        }.bind(this)
-        );
+    const navigation = useNavigation();
+
+    function navigateToLogin(){
+        navigation.navigate('Login');
     }
-    guidGenerator() {
-        var S4 = function() {
-           return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-        };
-        return (S4()+S4()+S4()+S4()+S4()+S4());
-    }
-    cadastrarMotorista = () =>{
-        var uid = this.guidGenerator();
-        const {nome, sobrenome, idade, sexo, cpf, rg, cnh, carteiraDeTrabalho} = this.state;
-        if(nome != null && sobrenome != null && idade != null && sexo != null && cpf!=null && rg != null && cnh != null && carteiraDeTrabalho != null){
-            firebase.database().ref(`motorista/${uid}`).set({
-                nome: this.state.nome,
-                sobrenome: this.state.sobrenome,
-                idade: this.state.idade,
-                sexo: this.state.sexo,
-                cpf: this.state.cpf,
-                tipoDeUsuario: 3,
-                rg: this.state.rg,
-                cnh: this.state.cnh,
-                carteiraDeTrabalho: this.state.carteiraDeTrabalho,
-                dataAdmissao: this.state.dataAdmissao,
-            })
-            
-            alert('cadastrado com sucesso!');
-        }else{
-            this.setState({errorMessage: "Preencha todos os campos presentes!"});
 
+    function navigateToDetailsMotoristas(motoristas){
+        navigation.navigate('DetailsMotorista', {motoristas});
+    }
+
+    async function loadMotoristas(){
+        if(loading){
+            return;
         }
-    }
-    removerMotorista = () =>{
-        console.log('entrou aqui');
-        firebase.database().ref(`motorista/`).once('value', (data) =>{
-            data.forEach((uid) =>{
-                uid.val();
-            })
-        }).then(()=>{
-            alert('removido com sucesso');
-        }).catch(error =>{
-            console.log(error)
-        })
-    }
-    singOutAccount = () =>{
-        firebase.auth().signOut().then(() =>{
-            this.setState({
-                isAuthenticated:false,
-            })
-            console.log('saiu')
-            this.props.navigation.navigate('Login');
-        }).catch(error =>
-            console.log(error.code))
+
+        if(total > 0 && motoristas.length == total){
+            return;
+        }
+
+        
+        setLoading(true);
+
+        const response = await api.get('motoristas', {
+            params: {page}
+        });
+
+        setMotoristas([ ...motoristas, ...response.data]);
+        setTotal(response.headers['x-total-count']);
+        setPage(page + 1);
+        setLoading(false);
     }
 
-    navigateToLogin = () =>{
-        this.props.navigation.navigate('Login');
-    }
-    navigateToDetailsMotorista = () =>{
-        this.props.navigation.navigate('DetailsMotorista');
-    }
-    getMotorista = () =>{
-        firebase.database().ref(`motorista/`).once('value', (data) =>{
-            data.forEach((uid) =>{
-                
-                    this.state.list.push({
-                        nome: uid.val().nome,
-                        sobrenome:uid.val().sobrenome,
-                        idade: uid.val().idade,
-                        rg: uid.val().rg,
-                        cpf: uid.val().cpf,
-                        sexo: uid.val().sexo,
-                        cnh: uid.val().cnh,
-                        carteiraDeTrabalho : uid.val().carteiraDeTrabalho,
-                        dataAdmissao: uid.val().dataAdmissao,
-                    })
-                    this.setState({
-                        list : this.state.list
-                    })
-            })
-        })
+    function handleMatriculaChange(matricula){ setMatricula(matricula); }
+    function handleNomeChange(nome){ setNome(nome); }
+    function handleSobrenomeChange(sobrenome){ setSobrenome(sobrenome); }
+    
+    function handleIdadeChange(idade){ setIdade(idade); }
+    function handleSexoChange(sexo){ setSexo(sexo); }
+    function handleRGChange(rg){ setRg(rg); }
+    function handleCPFChange(cpf){ setCpf(cpf); }
+    function handleCNHChange(cnh){ setCnh(cnh); }
+    function handleCarteiraTrabalhoChange(carteira_trabalho){ setCarteira_trabalho(carteira_trabalho); }
+    function handleValorVendaChange(valor_venda){ setValor_venda(valor_venda); }
+    function handleEmailChange(email){ setEmail(email); }
+    function handlePasswordChange(password){ setPassword(password); }
+
+
+    async function cadastrarMotorista(){
+        api.post('motoristas', {matricula, nome, sobrenome, idade, sexo, rg, cpf, cnh, carteira_trabalho, valor_venda, email, password});
     }
 
-    changeDate = (valor) =>{
-        this.setState({
-            dataAdmissao:valor,
-        })
-    }
-    render(){
+    useEffect(() => {
+        loadMotoristas();
+    }, []);
+
     return(
         <View style={styles.container} >
             <View style={styles.header}>
                 <Image source={logoImg} />
                 <TouchableRipple 
                     rippleColor="#E9EEF3"
-                    onPress={this.singOutAccount}
+                    onPress={()=>{}}
                 >
 
                     <FontAwesome name="power-off" size={24} color="red" />
@@ -145,12 +101,12 @@ export default class Motorista extends Component{
                 </TouchableRipple>
             </View>
 
-            <Text style={styles.description}>Procure um motorista</Text>
-            <Searchbar placeholder="Escreva aqui..." style={styles.search} editable={true} value={this.state.search} ></Searchbar>
+            {/* <Text style={styles.description}>Procure um motorista</Text>
+            <Searchbar placeholder="Escreva aqui..." style={styles.search} editable={true} value={this.state.search} ></Searchbar> */}
            <Modal
             animationType='slide'
             transparent={true}
-            visible={this.state.modalVisible}
+            visible={modalVisible}
             onRequestClose={() => {
               Alert.alert("Modal has been closed.");
             }}>
@@ -159,7 +115,7 @@ export default class Motorista extends Component{
                         style={styles.alinharClose}
                         rippleColor="#E9EEF3"
                         onPress={() => {
-                            this.setState({modalVisible:false})
+                            setModalVisible(!modalVisible);
                         }}
                         >
                         <AntDesign name="close" size={20} color="#D3D3D3" />
@@ -169,65 +125,72 @@ export default class Motorista extends Component{
                     </View>
                         <TextInput
                             style={styles.input}
+                            placeholder="Digite a Matricula"
+                            onChangeText={handleMatriculaChange}
+                        />
+                        <TextInput
+                            style={styles.input}
                             placeholder="Digite o nome"
-                            value={this.state.nome}
-                            onChangeText={nome=> this.setState({nome})}
+                            onChangeText={handleNomeChange}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Digite o sobrenome"
-                            value={this.state.sobrenome}
-                            onChangeText={sobrenome=> this.setState({sobrenome})}
+                            onChangeText={handleSobrenomeChange}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Digite a idade"
-                            value={this.state.idade}
-                            onChangeText={idade=> this.setState({idade})}
+                            onChangeText={handleIdadeChange}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Digite o sexo"
-                            value={this.state.sexo}
-                            onChangeText={sexo=> this.setState({sexo})}
+                            onChangeText={handleSexoChange}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Digite RG"
-                            value={this.state.rg}
-                            onChangeText={rg=> this.setState({rg})}
+                            onChangeText={handleRGChange}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Digite o CPF"
-                            value={this.state.cpf}
-                            onChangeText={cpf=> this.setState({cpf})}
+                            onChangeText={handleCPFChange}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Digite a CNH"
-                            value={this.state.cnh}
-                            onChangeText={cnh=> this.setState({cnh})}
+                            onChangeText={handleCNHChange}
                         />
                         <TextInput
                             style={styles.input}
                             placeholder="Digite o número da carteira de trabalho"
-                            value={this.state.carteiraDeTrabalho}
-                            onChangeText={carteiraDeTrabalho=> this.setState({carteiraDeTrabalho})}
+                            onChangeText={handleCarteiraTrabalhoChange}
                         />
-                        <DatePicker
-                            format="DD/MM/YYYY"
-                            style={{widht:350}}
-                            date={this.state.data}
-                            onDateChange={this.changeDate}
-                            />
-                        <View style={styles.errorMessage}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Digite o valor de venda"
+                            onChangeText={handleValorVendaChange}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Digite o email"
+                            onChangeText={handleEmailChange}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Digite a senha"
+                            secureTextEntry={true}
+                            onChangeText={handlePasswordChange}
+                        />
+                        {/* <View style={styles.errorMessage}>
                             {this.state.errorMessage && <Text style={styles.wrongText}>{this.state.errorMessage}</Text>}
-                        </View>
+                        </View> */}
                         <TouchableRipple 
                             style={styles.button}
                             rippleColor="#E9EEF3"
-                            onPress={this.cadastrarMotorista}
+                            onPress={cadastrarMotorista}
                         >
                             <View>
                             <Text style={styles.textStyle}>Cadastrar</Text>
@@ -240,45 +203,35 @@ export default class Motorista extends Component{
                 style={styles.detailsButtonAdd} 
                 rippleColor="#E9EEF3"
                 onPress={() => {
-                this.setState({modalVisible: true});
+                    setModalVisible(true);
                 }}
             >  
                 <Text style={{color:'#FFF', fontWeight:'bold'}}>Adicionar Motorista</Text>
             </TouchableOpacity>
             <FlatList
                 style={styles.driverList}
-                data={[1,2,3]}
-                keyExtractor={(list, index) => String(index)}
+                data={motoristas}
+                keyExtractor={(motoristas) => String(motoristas.id)}
+                onEndReached={loadMotoristas}
+                onEndReachedThreshold={0.2}
                 showsVerticalScrollIndicator ={false}
-                renderItem={({item: list}) => (
+                renderItem={({item: motoristas}) => (
                     <View style={styles.driver}>
                         <Text style={styles.driverProperty}>Nome Completo:</Text>
-                        <Text style={styles.driverValue}>Murilo Araujo</Text>
-
-                        <Text style={styles.driverProperty}>Idade:</Text>
-                        <Text style={styles.driverValue}>23</Text>
-
-                        <Text style={styles.driverProperty}>RG:</Text>
-                        <Text style={styles.driverValue}>13123122</Text>
+                        <Text style={styles.driverValue}>{motoristas.nome}</Text>
 
                         <Text style={styles.driverProperty}>CPF:</Text>
-                        <Text style={styles.driverValue}>01238492812</Text>
-
-                        <Text style={styles.driverProperty}>Sexo:</Text>
-                        <Text style={styles.driverValue}>Masculino</Text>
-
-                        <Text style={styles.driverProperty}>Nº da carteira de trabalho:</Text>
-                        <Text style={styles.driverValue}>123523464</Text>
+                        <Text style={styles.driverValue}>{motoristas.cpf}</Text>
 
                         <Text style={styles.driverProperty}>CNH:</Text>
-                        <Text style={styles.driverValue}>2314123412</Text>
+                        <Text style={styles.driverValue}>{motoristas.cnh}</Text>
 
-                        <Text style={styles.driverProperty}>Data de Admissão:</Text>
-                        <Text style={styles.driverValue}>15/09/2010</Text>
+                        <Text style={styles.driverProperty}>Email:</Text>
+                        <Text style={styles.driverValue}>{motoristas.email}</Text>
 
                         <TouchableOpacity 
                             style={styles.detailsButton} 
-                            onPress={this.navigateToDetailsMotorista}
+                            onPress={navigateToDetailsMotoristas}
                         >
                             <Text style={styles.detailsButtonText}>Ver detalhes</Text>
                             <AntDesign name="right" size={24} color="#4f8cff" />
@@ -287,5 +240,5 @@ export default class Motorista extends Component{
                 )}
             />
         </View>
-    )}
+    )
 }

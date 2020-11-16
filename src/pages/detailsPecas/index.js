@@ -25,10 +25,6 @@ export default function DetailsPecas(){
         navigateBack();
 
     }
-    useEffect(() => {
-        deletePecas();
-    }, []);
-
     return(
         <View style={styles.container}>
             <View style={styles.header}>

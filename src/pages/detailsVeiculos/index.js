@@ -26,9 +26,6 @@ export default function DetailsVeiculos(){
         navigateBack();
 
     }
-    useEffect(() => {
-        deleteVeiculos();
-    }, []);
 
     return(
         <View style={styles.container}>
