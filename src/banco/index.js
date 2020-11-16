@@ -1,12 +1,12 @@
 
 
 export const firebasecConfig = {
-    apiKey: "AIzaSyDNKA0l1De5kIFvMGfNSAxj9WgiwOaXaUM",
-    authDomain: "amfleet-23cd3.firebaseapp.com",
-    databaseURL: "https://amfleet-23cd3.firebaseio.com",
-    projectId: "amfleet-23cd3",
-    storageBucket: "amfleet-23cd3.appspot.com",
-    messagingSenderId: "24396477096",
-    appId: "1:24396477096:web:fc1f43e7bb3d2eb16dc89d",
-    measurementId: "G-TQW77VYX97"
+  apiKey: "AIzaSyD7f2v3wrEnYq6JE8xu1blbIS2GPV5Jnr8",
+  authDomain: "amfleet2-f2960.firebaseapp.com",
+  databaseURL: "https://amfleet2-f2960.firebaseio.com",
+  projectId: "amfleet2-f2960",
+  storageBucket: "amfleet2-f2960.appspot.com",
+  messagingSenderId: "910018967513",
+  appId: "1:910018967513:web:6a7428dd5b8ba586738bc8",
+  measurementId: "G-XQSQ1D2149"
   };
