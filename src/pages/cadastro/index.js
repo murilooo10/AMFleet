@@ -7,7 +7,7 @@ import styles from './styles';
 import firebase from 'firebase';
 import logoImg from '../../assets/logoGrande.png';
 import md5 from 'md5';
-import {Picker} from '@react-native-picker/picker';
+//import {Picker} from '@react-native-picker/picker';
 
 
 export default class Cadastro extends Component{
@@ -97,7 +97,6 @@ export default class Cadastro extends Component{
 
 
     render(){
-        const [selectedValue, setSelectedValue] = useState(null);
         return(
             <View style={styles.container}>
                 <View style={styles.header}>
@@ -133,15 +132,15 @@ export default class Cadastro extends Component{
                         onChangeText={email=> this.setState({email})}
                     />
 
-                    <Picker
+                    {/* <Picker
                     selectedValue={this.state.perfil}
                     style={styles.input}
                     onValueChange={(itemValue, itemIndex) =>
                         this.setState({perfil: itemValue})
                     }>
-                    <Picker.Item label="Usuário Chefe" value="Usuário Chefe" />
-                    <Picker.Item label="Chefe Manutenção" value="Chefe Manutenção" />
-                    </Picker>
+                        <Picker.Item label="Usuário Chefe" value="Usuário Chefe" />
+                        <Picker.Item label="Chefe Manutenção" value="Chefe Manutenção" />
+                    </Picker> */}
 
 
                     <TextInput
