@@ -43,8 +43,6 @@ const data3 = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80]
 const randomColor = () => ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(0, 7)
 
 
-
-
 export default class App extends Component {
   _card = el => {
     console.log('Card: ' + el.name)
@@ -54,6 +52,7 @@ export default class App extends Component {
   render(){
 
     const data = [30, 10, 25, 18];
+    
     const pieData = data.map((value, index) => ({
       value,
       key: `${index}-${value}`,
@@ -67,13 +66,13 @@ export default class App extends Component {
         const {pieCentroid, data} = slice;
         return(
           <Text
-          key={`label-${index}`}
-          x={pieCentroid[0]}
-          y={pieCentroid[1]}
-          fill="black"
-          textAnchor={'middle'}
-          alignmentBaseLine={'middle'}
-          fontSize={22}
+            key={`label-${index}`}
+            x={pieCentroid[0]}
+            y={pieCentroid[1]}
+            fill="black"
+            textAnchor={'middle'}
+            alignmentBaseLine={'middle'}
+            fontSize={22}
           >
             {data.value}
           </Text>
@@ -116,7 +115,6 @@ export default class App extends Component {
   const colors = ['#7b4173', '#a55194', '#ce6dbd', '#de9ed6']
   const keys = ['apples', 'bananas', 'cherries', 'dates']
 
-
     return (
       <View style={styles.container}>
       <ScrollView>
@@ -125,6 +123,7 @@ export default class App extends Component {
               </View>
         <StatusBar hidden/>
         
+        
         <View style={{flexDirection: 'row', justifyContent: 'space-evenly', flexWrap: 'wrap', alignItems: 'center'}}>
           {data1.map((p, i) => {
             return <Donut key={i} percentage={p.percentage} color={p.color} delay={200 + 100 * i} max={p.max} />
@@ -132,8 +131,11 @@ export default class App extends Component {
         </View>
 
 
-        <PieChart style={{ height: 250 }} data={pieData} />
+        <PieChart style={{ height: 250 }} data={pieData}>
+        <Label/>
+        </PieChart>
 
+        
         <StackedBarChart
                   style={{ height: 200 }}
                   keys={keys}
@@ -146,6 +148,9 @@ export default class App extends Component {
         <BarChart style={{ height: 200 }} data={data2} svg={{ fill }} contentInset={{ top: 30, bottom: 30 }}>
                 <Grid />
         </BarChart>
+
+
+  
         </ScrollView>
       </View>
     )}
