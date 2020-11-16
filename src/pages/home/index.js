@@ -7,6 +7,8 @@ import styles from './styles';
 import firebase from 'firebase';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import {firebasecConfig} from '../../banco/index.js';
+
 
 export default class Home extends Component{
     constructor(props){
@@ -27,7 +29,6 @@ export default class Home extends Component{
                 this.setState({
                     isAuthenticated: true,
                 })
-                console.log(user);
                 this.getInformation();
 
             }
@@ -52,32 +53,33 @@ export default class Home extends Component{
             console.log(error.code))
     }
 
-//     getInformation = () =>{
-//         var uid = firebase.auth().currentUser.uid;
+    getInformation = () =>{
+        var uid = firebase.auth().currentUser.uid;
 
-//         firebase.database().ref('usuario/' + uid).once('value', (data) => {
+        firebase.database().ref('usuario/' + uid).once('value', (data) => {
         
-//             this.setState({
-//                 nome: data.val().nome
-//             })
-//         })
-//         .catch(error => {
-//             switch (error.code) {
-//                 case 'auth/invalid-email':
-//                     this.props.navigation.navigate('Login');
-//                 break;
-//                 case 'auth/invalid-password':
-//                     this.props.navigation.navigate('Login');
-//                 break;
-//                 case 'auth/user-not-found':
-//                     this.props.navigation.navigate('Login');
-//                 break;
-//             default:
-//                 this.props.navigation.navigate('Login');
-//                 break;
-//             }
-//         })
-//     }
+            this.setState({
+                nome: data.val().nome
+            })
+        })
+        .catch(error => {
+            switch (error.code) {
+                case 'auth/invalid-email':
+                    this.props.navigation.navigate('Login');
+                break;
+                case 'auth/invalid-password':
+                    this.props.navigation.navigate('Login');
+                break;
+                case 'auth/user-not-found':
+                    this.props.navigation.navigate('Login');
+                break;
+            default:
+                this.props.navigation.navigate('Login');
+                break;
+            }
+        })
+    }
+
 
     navigateToLogin = () =>{
         this.props.navigation.navigate('Login');
@@ -105,10 +107,20 @@ export default class Home extends Component{
     navigateToListaComprovantes = () =>{
        this.props.navigation.navigate('ListaComprovantes');
     }
-    
     navigateToAnalises = () =>{
         this.props.navigation.navigate('Analises');
      }
+
+     handleLogout = async() =>{
+
+        firebase.auth().signOut()
+            .then(function() {
+            // Sign-out successful.
+            })
+        .catch(function(error) {
+            // Ocorreu um erro
+        });
+    }
 
     render(){
     return(
@@ -117,15 +129,14 @@ export default class Home extends Component{
                 <Image source={logoImg}/>
                 <TouchableRipple 
                     rippleColor="#E9EEF3"
-                    onPress={this.singOutAccount}
+                    onPress={this.handleLogout}
                 >
-
                     <FontAwesome name="power-off" size={24} color="red" />
 
                 </TouchableRipple>
             </View>
 
-            {/* <Text style={styles.title}>Bem vindo, {this.state.nome}!</Text> */}
+            {<Text style={styles.title}>Bem vindo, {this.state.nome}!</Text>}
 
                         <View style={styles.homeList}>
                                 
@@ -189,7 +200,7 @@ export default class Home extends Component{
                                 <TouchableRipple 
                                     rippleColor="#E9EEF3"
                                     style={styles.home} 
-                                    onPress={() =>{}}
+                                    onPress={this.navigateToAnalises}
                                 >
                                     <View>
                                         <AntDesign style={styles.icon} name="areachart" size={120} />
